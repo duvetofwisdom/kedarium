@@ -8,6 +8,12 @@
 
 namespace kdr
 {
+  /**
+   * @namespace Core
+   * @brief Contains core functionality for the Kedarium engine.
+   *
+   * This namespace includes functions related to engine information and version details.
+   */
   namespace Core
   {
     /**

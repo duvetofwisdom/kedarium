@@ -4,6 +4,7 @@
 #include <string>
 
 #include "Kedarium/Core.hpp"
+#include "Kedarium/Color.hpp"
 
 // Constants
 const unsigned int WINDOW_WIDTH  {800};
@@ -45,11 +46,13 @@ int main()
   }
 
   // Clear Color
-  GLclampf red   {0.0f};
-  GLclampf green {0.3f};
-  GLclampf blue  {0.3f};
-  GLclampf alpha {1.0f};
-  glClearColor(red, green, blue, alpha);
+  kdr::Color::RGBA clearColor {0, 0, 0, 1.f};
+  glClearColor(
+    clearColor.red,
+    clearColor.green,
+    clearColor.blue,
+    clearColor.alpha
+  );
 
   // Version Info
   kdr::Core::printEngineInfo();
