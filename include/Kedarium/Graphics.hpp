@@ -93,7 +93,8 @@ namespace kdr
          *
          * The destructor cleans up the OpenGL resources associated with the VBO.
          */
-        ~VBO();
+        ~VBO()
+        { glDeleteBuffers(1, &this->ID); }
 
         /**
          * @brief Binds the VBO to the OpenGL context.
@@ -101,7 +102,7 @@ namespace kdr
          * This function binds the VBO to the OpenGL context, making it the current
          * GL_ARRAY_BUFFER. Subsequent OpenGL operations will affect this VBO.
          */
-        void Bind()
+        void Bind() const
         { glBindBuffer(GL_ARRAY_BUFFER, this->ID); }
         /**
          * @brief Unbinds the VBO from the OpenGL context.
@@ -109,14 +110,14 @@ namespace kdr
          * This function unbinds the VBO from the OpenGL context, making it no longer
          * the current GL_ARRAY_BUFFER. Subsequent OpenGL operations will not affect this VBO.
          */
-        void Unbind()
+        void Unbind() const
         { glBindBuffer(GL_ARRAY_BUFFER, 0); }
         /**
          * @brief Deletes the VBO, releasing associated OpenGL resources.
          *
          * This function deletes the VBO, releasing the OpenGL buffer object.
          */
-        void Delete()
+        void Delete() const
         { glDeleteBuffers(1, &this->ID); }
 
       private:
@@ -148,7 +149,8 @@ namespace kdr
          *
          * The destructor cleans up the OpenGL resources associated with the EBO.
          */
-        ~EBO();
+        ~EBO()
+        { glDeleteBuffers(1, &this->ID); }
 
         /**
          * @brief Binds the EBO to the OpenGL context.
@@ -156,7 +158,7 @@ namespace kdr
          * This function binds the EBO to the OpenGL context, making it the current
          * GL_ELEMENT_ARRAY_BUFFER. Subsequent OpenGL operations will affect this EBO.
          */
-        void Bind()
+        void Bind() const
         { glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ID); }
         /**
          * @brief Unbinds the EBO from the OpenGL context.
@@ -164,15 +166,82 @@ namespace kdr
          * This function unbinds the EBO from the OpenGL context, making it no longer
          * the current GL_ELEMENT_ARRAY_BUFFER. Subsequent OpenGL operations will not affect this EBO.
          */
-        void Unbind()
+        void Unbind() const
         { glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); }
         /**
          * @brief Deletes the EBO, releasing associated OpenGL resources.
          *
          * This function deletes the EBO, releasing the OpenGL buffer object.
          */
-        void Delete()
+        void Delete() const
         { glDeleteBuffers(1, &this->ID); }
+
+      private:
+        GLuint ID;
+    };
+
+    /**
+     * @class VAO
+     * @brief Represents a Vertex Array Object (VAO) for encapsulating vertex attribute configuration in OpenGL.
+     *
+     * The VAO class encapsulates the functionality for creating, managing, and using
+     * OpenGL Vertex Array Objects (VAOs) to define the configuration of vertex attributes
+     * for rendering with Vertex Buffer Objects (VBOs).
+     */
+    class VAO
+    {
+      public:
+        /**
+         * @brief Constructs a VAO and generates its OpenGL ID.
+         *
+         * This constructor generates an OpenGL Vertex Array Object (VAO) ID.
+         */
+        VAO()
+        { glGenVertexArrays(1, &this->ID); }
+        /**
+         * @brief Destroys the VAO object, releasing associated OpenGL resources.
+         *
+         * The destructor cleans up the OpenGL resources associated with the VAO.
+         */
+        ~VAO()
+        { glDeleteVertexArrays(1, &this->ID); }
+
+        /**
+         * @brief Binds the VAO to the OpenGL context.
+         *
+         * This function binds the VAO to the OpenGL context, making it the current
+         * Vertex Array Object. Subsequent OpenGL operations will affect this VAO.
+         */
+        void Bind() const
+        { glBindVertexArray(this->ID); }
+        /**
+         * @brief Unbinds the VAO from the OpenGL context.
+         *
+         * This function unbinds the VAO from the OpenGL context, making it no longer
+         * the current Vertex Array Object. Subsequent OpenGL operations will not affect this VAO.
+         */
+        void Unbind() const
+        { glBindVertexArray(0); }
+        /**
+         * @brief Deletes the VAO, releasing associated OpenGL resources.
+         *
+         * This function deletes the VAO, releasing the OpenGL buffer object.
+         */
+        void Delete() const
+        { glDeleteVertexArrays(1, &this->ID); }
+        /**
+         * @brief Links a VBO's attribute to the VAO's layout configuration.
+         *
+         * This function associates a VBO's attribute with the layout configuration of the VAO.
+         *
+         * @param VBO     The VBO containing the attribute data.
+         * @param layout  The layout index for the attribute.
+         * @param size    The number of components per attribute (e.g., 3 for a vec3).
+         * @param type    The data type of the attribute.
+         * @param stride  The stride between consecutive attributes in the VBO.
+         * @param offset  The offset of the attribute in the VBO.
+         */
+        void LinkAttrib(const kdr::Graphics::VBO& VBO, GLuint layout, GLuint size, GLenum type, GLsizeiptr stride, const void* offset) const;
 
       private:
         GLuint ID;

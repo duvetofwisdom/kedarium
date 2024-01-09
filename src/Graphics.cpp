@@ -75,11 +75,6 @@ kdr::Graphics::VBO::VBO(GLfloat vertices[], GLsizeiptr size)
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-kdr::Graphics::VBO::~VBO()
-{
-  glDeleteBuffers(1, &this->ID);
-}
-
 kdr::Graphics::EBO::EBO(GLuint indices[], GLsizeiptr size)
 {
   glGenBuffers(1, &this->ID);
@@ -88,7 +83,10 @@ kdr::Graphics::EBO::EBO(GLuint indices[], GLsizeiptr size)
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-kdr::Graphics::EBO::~EBO()
+void kdr::Graphics::VAO::LinkAttrib(const kdr::Graphics::VBO& VBO, GLuint layout, GLuint size, GLenum type, GLsizeiptr stride, const void* offset) const
 {
-  glDeleteBuffers(1, &this->ID);
+  VBO.Bind();
+  glVertexAttribPointer(layout, size, type, GL_FALSE, stride, offset);
+  glEnableVertexAttribArray(layout);
+  VBO.Unbind();
 }
