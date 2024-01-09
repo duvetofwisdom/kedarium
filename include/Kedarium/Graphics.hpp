@@ -122,6 +122,61 @@ namespace kdr
       private:
         GLuint ID;
     };
+
+    /**
+     * @class EBO
+     * @brief Represents an Element Buffer Object (EBO) for storing element (index) data in OpenGL.
+     *
+     * The EBO class encapsulates the functionality for creating, managing, and using
+     * OpenGL Element Buffer Objects (EBOs) to store element (index) data for rendering.
+     */
+    class EBO
+    {
+      public:
+        /**
+         * @brief Constructs an EBO object and initializes it with element data.
+         *
+         * This constructor creates an EBO and initializes it with the specified element data.
+         * The size parameter indicates the size (in bytes) of the element data.
+         *
+         * @param indices An array of GLuint representing the element (index) data.
+         * @param size    The size (in bytes) of the element data.
+         */
+        EBO(GLuint indices[], GLsizeiptr size);
+        /**
+         * @brief Destroys the EBO object, releasing associated OpenGL resources.
+         *
+         * The destructor cleans up the OpenGL resources associated with the EBO.
+         */
+        ~EBO();
+
+        /**
+         * @brief Binds the EBO to the OpenGL context.
+         *
+         * This function binds the EBO to the OpenGL context, making it the current
+         * GL_ELEMENT_ARRAY_BUFFER. Subsequent OpenGL operations will affect this EBO.
+         */
+        void Bind()
+        { glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ID); }
+        /**
+         * @brief Unbinds the EBO from the OpenGL context.
+         *
+         * This function unbinds the EBO from the OpenGL context, making it no longer
+         * the current GL_ELEMENT_ARRAY_BUFFER. Subsequent OpenGL operations will not affect this EBO.
+         */
+        void Unbind()
+        { glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); }
+        /**
+         * @brief Deletes the EBO, releasing associated OpenGL resources.
+         *
+         * This function deletes the EBO, releasing the OpenGL buffer object.
+         */
+        void Delete()
+        { glDeleteBuffers(1, &this->ID); }
+
+      private:
+        GLuint ID;
+    };
   }
 }
 
