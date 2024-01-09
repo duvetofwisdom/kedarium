@@ -66,3 +66,16 @@ kdr::Graphics::Shader::~Shader()
 {
   glDeleteShader(this->ID);
 }
+
+kdr::Graphics::VBO::VBO(GLfloat vertices[], GLsizeiptr size)
+{
+  glGenBuffers(1, &this->ID);
+  glBindBuffer(GL_ARRAY_BUFFER, this->ID);
+  glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+kdr::Graphics::VBO::~VBO()
+{
+  glDeleteBuffers(1, &this->ID);
+}

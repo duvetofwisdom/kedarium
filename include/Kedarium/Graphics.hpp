@@ -67,6 +67,61 @@ namespace kdr
       private:
         GLuint ID;
     };
+
+    /**
+     * @class VBO
+     * @brief Represents a Vertex Buffer Object (VBO) for storing vertex data in OpenGL.
+     *
+     * The VBO class encapsulates the functionality for creating, managing, and using
+     * OpenGL Vertex Buffer Objects (VBOs) to store vertex data for rendering.
+     */
+    class VBO
+    {
+      public:
+        /**
+         * @brief Constructs a VBO object and initializes it with vertex data.
+         *
+         * This constructor creates a VBO and initializes it with the specified vertex data.
+         * The size parameter indicates the size (in bytes) of the vertex data.
+         *
+         * @param vertices An array of GLfloat representing the vertex data.
+         * @param size     The size (in bytes) of the vertex data.
+         */
+        VBO(GLfloat vertices[], GLsizeiptr size);
+        /**
+         * @brief Destroys the VBO object, releasing associated OpenGL resources.
+         *
+         * The destructor cleans up the OpenGL resources associated with the VBO.
+         */
+        ~VBO();
+
+        /**
+         * @brief Binds the VBO to the OpenGL context.
+         *
+         * This function binds the VBO to the OpenGL context, making it the current
+         * GL_ARRAY_BUFFER. Subsequent OpenGL operations will affect this VBO.
+         */
+        void Bind()
+        { glBindBuffer(GL_ARRAY_BUFFER, this->ID); }
+        /**
+         * @brief Unbinds the VBO from the OpenGL context.
+         *
+         * This function unbinds the VBO from the OpenGL context, making it no longer
+         * the current GL_ARRAY_BUFFER. Subsequent OpenGL operations will not affect this VBO.
+         */
+        void Unbind()
+        { glBindBuffer(GL_ARRAY_BUFFER, 0); }
+        /**
+         * @brief Deletes the VBO, releasing associated OpenGL resources.
+         *
+         * This function deletes the VBO, releasing the OpenGL buffer object.
+         */
+        void Delete()
+        { glDeleteBuffers(1, &this->ID); }
+
+      private:
+        GLuint ID;
+    };
   }
 }
 
