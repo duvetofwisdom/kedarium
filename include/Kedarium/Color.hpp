@@ -67,6 +67,27 @@ namespace kdr
       : red(red / 255.f), green(green / 255.f), blue(blue / 255.f), alpha(alpha)
       {}
     };
+
+    /**
+     * @brief Predefined RGBA color constant representing black (0, 0, 0, 1.0).
+     */
+    inline const kdr::Color::RGBA Black {0, 0, 0, 1.f};
+    /**
+     * @brief Predefined RGBA color constant representing white (255, 255, 255, 1.0).
+     */
+    inline const kdr::Color::RGBA White {255, 255, 255, 1.f};
+    /**
+     * @brief Predefined RGBA color constant representing red (255, 0, 0, 1.0).
+     */
+    inline const kdr::Color::RGBA Red {255, 0, 0, 1.f};
+    /**
+     * @brief Predefined RGBA color constant representing green (0, 255, 0, 1.0).
+     */
+    inline const kdr::Color::RGBA Green {0, 255, 0, 1.f};
+    /**
+     * @brief Predefined RGBA color constant representing blue (0, 0, 255, 1.0).
+     */
+    inline const kdr::Color::RGBA Blue {0, 0, 255, 1.f};
   }
 }
 

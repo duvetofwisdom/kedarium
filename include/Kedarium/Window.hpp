@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 
+#include "Color.hpp"
+
 namespace kdr
 {
   /**
@@ -98,6 +100,24 @@ namespace kdr
       void close()
       { glfwSetWindowShouldClose(this->glfwWindow, GLFW_TRUE); }
 
+      /**
+       * @brief Sets the clear color for rendering.
+       *
+       * This function sets the clear color for rendering and updates the OpenGL clear color.
+       *
+       * @param clearColor The RGBA color to set as the clear color.
+       */
+      void setClearColor(const kdr::Color::RGBA& clearColor)
+      {
+        this->clearColor = clearColor;
+        glClearColor(
+          clearColor.red,
+          clearColor.green,
+          clearColor.blue,
+          clearColor.alpha
+        );
+      }
+
     protected:
       /**
        * @brief Updates the window.
@@ -120,6 +140,7 @@ namespace kdr
       std::string title {"GLFW"};
 
       GLFWwindow* glfwWindow;
+      kdr::Color::RGBA clearColor {kdr::Color::Black};
 
       /**
        * @brief Initializes GLFW.

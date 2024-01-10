@@ -61,7 +61,11 @@ class MainWindow : public kdr::Window::Window
     {}
     
     void render()
-    {}
+    {
+      defaultShader.Use();
+      VAO1.Bind();
+      glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
+    }
 
   private:
     kdr::Graphics::Shader defaultShader {
@@ -78,12 +82,6 @@ int main()
 {
   // Clear Color
   kdr::Color::RGBA clearColor {0, 0, 0, 1.f};
-  glClearColor(
-    clearColor.red,
-    clearColor.green,
-    clearColor.blue,
-    clearColor.alpha
-  );
 
   // Main Window
   MainWindow mainWindow {
@@ -92,6 +90,7 @@ int main()
     WINDOW_TITLE
   };
   mainWindow.initialize();
+  mainWindow.setClearColor(clearColor);
 
   // Version Info
   kdr::Core::printEngineInfo();
