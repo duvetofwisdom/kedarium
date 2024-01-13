@@ -80,6 +80,13 @@ void kdr::Window::_update()
 {
   glfwPollEvents();
   this->update();
+
+  if (!this->isMouseLocked) {
+    glfwSetInputMode(this->glfwWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    return;
+  }
+
+  glfwSetInputMode(this->glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 void kdr::Window::_render()

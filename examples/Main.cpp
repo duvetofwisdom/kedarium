@@ -6,9 +6,9 @@
 #include "Kedarium/Core.hpp"
 #include "Kedarium/File.hpp"
 #include "Kedarium/Color.hpp"
+#include "Kedarium/Keys.hpp"
 #include "Kedarium/Graphics.hpp"
 #include "Kedarium/Window.hpp"
-#include "Kedarium/Space.hpp"
 #include "Kedarium/Debug.hpp"
 
 // Constants
@@ -56,15 +56,20 @@ class MainWindow : public kdr::Window::Window
       this->VAO1.Unbind();
       this->VBO1.Unbind();
       this->EBO1.Unbind();
-
-      kdr::Space::Vec3 vecA {1.f, 3.f, 1.f};
-      kdr::Space::Vec3 vecB {3.f, 1.f, 2.f};
-      kdr::Space::Vec3 vecC {2.f, 2.f, 3.f};
     }
 
   protected:
     void update()
-    {}
+    {
+      if (kdr::Keys::isPressed(this->getGlfwWindow(), kdr::Key::E))
+      {
+        this->setIsMouseLocked(true);
+      }
+      else if (kdr::Keys::isPressed(this->getGlfwWindow(), kdr::Key::Escape))
+      {
+        this->setIsMouseLocked(false);
+      }
+    }
     
     void render()
     {

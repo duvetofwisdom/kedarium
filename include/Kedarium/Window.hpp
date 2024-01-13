@@ -101,6 +101,16 @@ namespace kdr
       { glfwSetWindowShouldClose(this->glfwWindow, GLFW_TRUE); }
 
       /**
+       * @brief Gets the GLFW window associated with this object.
+       *
+       * This function returns the pointer to the GLFW window associated with this object.
+       *
+       * @return A pointer to the GLFW window.
+       */
+      GLFWwindow* getGlfwWindow() const
+      { return this->glfwWindow; }
+
+      /**
        * @brief Sets the clear color for rendering.
        *
        * This function sets the clear color for rendering and updates the OpenGL clear color.
@@ -134,6 +144,16 @@ namespace kdr
        */
       virtual void render() = 0;
 
+      /**
+       * @brief Sets the flag indicating whether the mouse is locked.
+       *
+       * This function sets the flag indicating whether the mouse is locked within the window.
+       *
+       * @param isMouseLocked True if the mouse should be locked, false otherwise.
+       */
+      void setIsMouseLocked(const bool isMouseLocked)
+      { this->isMouseLocked = isMouseLocked; }
+
     private:
       unsigned int width {800};
       unsigned int height {600};
@@ -141,6 +161,8 @@ namespace kdr
 
       GLFWwindow* glfwWindow;
       kdr::Color::RGBA clearColor {kdr::Color::Black};
+
+      bool isMouseLocked {false};
 
       /**
        * @brief Initializes GLFW.
