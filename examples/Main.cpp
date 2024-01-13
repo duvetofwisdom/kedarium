@@ -7,6 +7,7 @@
 #include "Kedarium/File.hpp"
 #include "Kedarium/Color.hpp"
 #include "Kedarium/Keys.hpp"
+#include "Kedarium/Space.hpp"
 #include "Kedarium/Graphics.hpp"
 #include "Kedarium/Window.hpp"
 #include "Kedarium/Debug.hpp"
@@ -18,12 +19,12 @@ const std::string  WINDOW_TITLE  {"GLFW"};
 
 // Vertices and Indices
 GLfloat vertices[] = {
-  -0.5f,  -0.5f, 0.f, 1.f, 1.f, 1.f,
-   0.0f,  -0.5f, 0.f, 1.f, 1.f, 1.f,
-   0.5f,  -0.5f, 0.f, 1.f, 1.f, 1.f,
-  -0.25f,  0.0f, 0.f, 1.f, 1.f, 1.f,
-   0.25f,  0.0f, 0.f, 1.f, 1.f, 1.f,
-   0.0f,   0.5f, 0.f, 1.f, 1.f, 1.f,
+  -0.5f,  -0.5f, -2.f, 1.f, 1.f, 1.f,
+   0.0f,  -0.5f, -2.f, 1.f, 1.f, 1.f,
+   0.5f,  -0.5f, -2.f, 1.f, 1.f, 1.f,
+  -0.25f,  0.0f, -2.f, 1.f, 1.f, 1.f,
+   0.25f,  0.0f, -2.f, 1.f, 1.f, 1.f,
+   0.0f,   0.5f, -2.f, 1.f, 1.f, 1.f,
 };
 GLuint indices[] = {
   0, 1, 3,
@@ -75,6 +76,26 @@ class MainWindow : public kdr::Window::Window
     {
       defaultShader.Use();
       VAO1.Bind();
+
+      kdr::Space::Mat4 model {1.f};
+      kdr::Space::Mat4 view {1.f};
+      kdr::Space::Mat4 proj {1.f};
+
+      proj = kdr::Space::perspective(
+        60.f,
+        WINDOW_WIDTH / WINDOW_HEIGHT,
+        0.1f,
+        100.f
+      );
+      
+      GLuint modelLoc = glGetUniformLocation(defaultShader.getID(), "model");
+      GLuint viewLoc = glGetUniformLocation(defaultShader.getID(), "view");
+      GLuint projLoc = glGetUniformLocation(defaultShader.getID(), "proj");
+
+      glUniformMatrix4fv(modelLoc, 1, GL_FALSE, kdr::Space::valuePointer(model));
+      glUniformMatrix4fv(viewLoc, 1, GL_FALSE, kdr::Space::valuePointer(view));
+      glUniformMatrix4fv(projLoc, 1, GL_FALSE, kdr::Space::valuePointer(proj));
+
       glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
     }
 

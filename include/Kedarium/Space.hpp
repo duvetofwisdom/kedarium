@@ -1,6 +1,8 @@
 #ifndef KDR_SPACE_HPP
 #define KDR_SPACE_HPP
 
+#include <cmath>
+
 namespace kdr
 {
   /**
@@ -9,6 +11,22 @@ namespace kdr
    */
   namespace Space
   {
+    /**
+     * @brief The mathematical constant representing the ratio of a circle's circumference to its diameter.
+     */
+    inline const float PI = 3.141593f;
+
+    /**
+     * @brief Converts degrees to radians.
+     *
+     * This function converts an angle from degrees to radians using the formula: radians = degrees * (PI / 180).
+     *
+     * @param degrees The angle in degrees to be converted.
+     * @return The angle in radians.
+     */
+    inline float radians(const float degrees)
+    { return degrees * kdr::Space::PI / 180.f; }
+
     /**
      * @class Vec2
      * @brief Represents a 2D vector in space with x and y components.
@@ -271,6 +289,24 @@ namespace kdr
             }
           }
         }
+        /**
+         * @brief Constructs a 4x4 matrix with diagonal elements set to a specified value.
+         *
+         * This constructor initializes a 4x4 matrix with diagonal elements set to the specified value,
+         * and the off-diagonal elements set to 0.
+         *
+         * @param diagonalValue The value to set on the diagonal elements.
+         */
+        Mat4(const float diagonalValue)
+        {
+          for (int y = 0; y < 4; y++)
+          {
+            for (int x = 0; x < 4; x++)
+            {
+              elements[y][x] = x == y ? diagonalValue : 0.f;
+            }
+          }
+        }
 
         /**
          * @brief Overloaded operator to access the elements of the matrix.
@@ -296,6 +332,32 @@ namespace kdr
       private:
         float elements[4][4];
     };
+
+    /**
+     * @brief Gets a pointer to the first element of a 4x4 matrix.
+     *
+     * This function returns a pointer to the first element of the specified 4x4 matrix.
+     * It can be useful when passing the matrix to OpenGL functions that expect a pointer
+     * to a contiguous block of memory representing a matrix.
+     *
+     * @param mat The 4x4 matrix.
+     * @return A const pointer to the first element of the matrix.
+     */
+    inline const float* valuePointer(const kdr::Space::Mat4& mat)
+    { return &mat[0][0]; }
+
+    /**
+     * @brief Creates a perspective projection matrix.
+     *
+     * This function generates a perspective projection matrix based on the specified parameters.
+     *
+     * @param fov The field of view angle in degrees.
+     * @param aspect The aspect ratio of the viewport (width / height).
+     * @param zNear The distance to the near clipping plane.
+     * @param zFar The distance to the far clipping plane.
+     * @return The perspective projection matrix.
+     */
+    kdr::Space::Mat4 perspective(const float fov, const float aspect, const float zNear, const float zFar);
   }
 }
 
