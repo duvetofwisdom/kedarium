@@ -246,6 +246,56 @@ namespace kdr
         vecA.x * vecB.y - vecA.y * vecB.x
       );
     }
+
+    /**
+     * @class Mat4
+     * @brief Represents a 4x4 matrix of floating-point numbers.
+     *
+     * The Mat4 class provides a basic 4x4 matrix with elements stored in a 2D array.
+     */
+    class Mat4
+    {
+      public:
+        /**
+         * @brief Default constructor for Mat4.
+         *
+         * Initializes all elements of the matrix to 0.
+         */
+        Mat4()
+        {
+          for (int y = 0; y < 4; y++)
+          {
+            for (int x = 0; x < 4; x++)
+            {
+              elements[y][x] = 0.f;
+            }
+          }
+        }
+
+        /**
+         * @brief Overloaded operator to access the elements of the matrix.
+         *
+         * Provides access to the elements of the matrix using the subscript operator.
+         *
+         * @param index The row index.
+         * @return A pointer to the array representing the specified row of the matrix.
+         */
+        float* operator[](int index)
+        { return this->elements[index]; }
+        /**
+         * @brief Overloaded operator to access the elements of the matrix (const version).
+         *
+         * Provides const access to the elements of the matrix using the subscript operator.
+         *
+         * @param index The row index.
+         * @return A const pointer to the array representing the specified row of the matrix.
+         */
+        const float* operator[](int index) const
+        { return this->elements[index]; }
+
+      private:
+        float elements[4][4];
+    };
   }
 }
 

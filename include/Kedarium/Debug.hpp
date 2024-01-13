@@ -24,6 +24,19 @@ namespace kdr
     {
       std::cout << "Vector: " << vec.x << ", " << vec.y << ", " << vec.z << '\n';
     }
+
+    void printMatrix(const kdr::Space::Mat4& mat)
+    {
+      std::cout << "Matrix:\n";
+      for (int y = 0; y < 4; y++)
+      {
+        for (int x = 0; x < 4; x++)
+        {
+          std::cout << mat[y][x] << " ";
+        }
+        std::cout << '\n';
+      }
+    }
   }
 }
 
