@@ -329,6 +329,27 @@ namespace kdr
         const float* operator[](int index) const
         { return this->elements[index]; }
 
+        /**
+         * @brief Multiplies this matrix by another matrix.
+         *
+         * This function performs matrix multiplication between this matrix and the provided matrix.
+         *
+         * @param mat The matrix to multiply with.
+         * @return The result of the matrix multiplication.
+         */
+        Mat4 operator*(const kdr::Space::Mat4& mat) const
+        {
+          Mat4 result;
+          for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+              for (int k = 0; k < 4; k++) {
+                result[i][j] += mat[i][k] * elements[k][j];
+              }
+            }
+          }
+          return result;
+        }
+
       private:
         float elements[4][4];
     };
@@ -346,6 +367,17 @@ namespace kdr
     inline const float* valuePointer(const kdr::Space::Mat4& mat)
     { return &mat[0][0]; }
 
+    /**
+     * @brief Creates a translation matrix based on an existing matrix and a translation vector.
+     *
+     * This function generates a translation matrix by adding the specified translation vector to the
+     * translation components of the given matrix.
+     *
+     * @param mat The original matrix to be translated.
+     * @param vec The translation vector representing the translation in x, y, and z directions.
+     * @return The resulting matrix after translation.
+     */
+    kdr::Space::Mat4 translate(const kdr::Space::Mat4& mat, const kdr::Space::Vec3& vec);
     /**
      * @brief Creates a perspective projection matrix.
      *

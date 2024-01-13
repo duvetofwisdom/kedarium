@@ -1,5 +1,14 @@
 #include "Kedarium/Space.hpp"
 
+kdr::Space::Mat4 kdr::Space::translate(const kdr::Space::Mat4& mat, const kdr::Space::Vec3& vec)
+{
+  kdr::Space::Mat4 result {mat};
+  result[3][0] += vec.x;
+  result[3][1] += vec.y;
+  result[3][2] += vec.z;  
+  return result;
+}
+
 kdr::Space::Mat4 kdr::Space::perspective(const float fov, const float aspect, const float zNear, const float zFar)
 {
   kdr::Space::Mat4 result;

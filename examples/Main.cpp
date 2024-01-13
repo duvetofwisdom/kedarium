@@ -10,21 +10,28 @@
 #include "Kedarium/Space.hpp"
 #include "Kedarium/Graphics.hpp"
 #include "Kedarium/Window.hpp"
+#include "Kedarium/Camera.hpp"
 #include "Kedarium/Debug.hpp"
 
 // Constants
-const unsigned int WINDOW_WIDTH  {800};
-const unsigned int WINDOW_HEIGHT {600};
-const std::string  WINDOW_TITLE  {"GLFW"};
+constexpr unsigned int WINDOW_WIDTH  {800};
+constexpr unsigned int WINDOW_HEIGHT {600};
+const     std::string  WINDOW_TITLE  {"GLFW"};
+
+// Camera Settings
+constexpr float CAMERA_FOV    {60.f};
+constexpr float CAMERA_ASPECT {WINDOW_WIDTH / (float)WINDOW_HEIGHT};
+constexpr float CAMERA_NEAR   {0.1f};
+constexpr float CAMERA_FAR    {100.f};
 
 // Vertices and Indices
 GLfloat vertices[] = {
-  -0.5f,  -0.5f, -2.f, 1.f, 1.f, 1.f,
-   0.0f,  -0.5f, -2.f, 1.f, 1.f, 1.f,
-   0.5f,  -0.5f, -2.f, 1.f, 1.f, 1.f,
-  -0.25f,  0.0f, -2.f, 1.f, 1.f, 1.f,
-   0.25f,  0.0f, -2.f, 1.f, 1.f, 1.f,
-   0.0f,   0.5f, -2.f, 1.f, 1.f, 1.f,
+  -0.5f,  -0.5f, 0.f, 1.f, 1.f, 1.f,
+   0.0f,  -0.5f, 0.f, 1.f, 1.f, 1.f,
+   0.5f,  -0.5f, 0.f, 1.f, 1.f, 1.f,
+  -0.25f,  0.0f, 0.f, 1.f, 1.f, 1.f,
+   0.25f,  0.0f, 0.f, 1.f, 1.f, 1.f,
+   0.0f,   0.5f, 0.f, 1.f, 1.f, 1.f,
 };
 GLuint indices[] = {
   0, 1, 3,
@@ -76,30 +83,19 @@ class MainWindow : public kdr::Window::Window
     {
       defaultShader.Use();
       VAO1.Bind();
-
-      kdr::Space::Mat4 model {1.f};
-      kdr::Space::Mat4 view {1.f};
-      kdr::Space::Mat4 proj {1.f};
-
-      proj = kdr::Space::perspective(
-        60.f,
-        WINDOW_WIDTH / WINDOW_HEIGHT,
-        0.1f,
-        100.f
-      );
-      
-      GLuint modelLoc = glGetUniformLocation(defaultShader.getID(), "model");
-      GLuint viewLoc = glGetUniformLocation(defaultShader.getID(), "view");
-      GLuint projLoc = glGetUniformLocation(defaultShader.getID(), "proj");
-
-      glUniformMatrix4fv(modelLoc, 1, GL_FALSE, kdr::Space::valuePointer(model));
-      glUniformMatrix4fv(viewLoc, 1, GL_FALSE, kdr::Space::valuePointer(view));
-      glUniformMatrix4fv(projLoc, 1, GL_FALSE, kdr::Space::valuePointer(proj));
-
+      mainCamera.updateMatrix();
+      mainCamera.applyMatrix(this->defaultShader.getID());
       glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
     }
 
   private:
+    kdr::Camera mainCamera {
+      {0.f, 0.f, -3.f},
+      CAMERA_FOV,
+      CAMERA_ASPECT,
+      CAMERA_NEAR,
+      CAMERA_FAR
+    };
     kdr::Graphics::Shader defaultShader {
       "resources/Shaders/default.vert",
       "resources/Shaders/default.frag"
