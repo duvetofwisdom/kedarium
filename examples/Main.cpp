@@ -8,6 +8,8 @@
 #include "Kedarium/Color.hpp"
 #include "Kedarium/Graphics.hpp"
 #include "Kedarium/Window.hpp"
+#include "Kedarium/Space.hpp"
+#include "Kedarium/Debug.hpp"
 
 // Constants
 const unsigned int WINDOW_WIDTH  {800};
@@ -54,6 +56,9 @@ class MainWindow : public kdr::Window::Window
       this->VAO1.Unbind();
       this->VBO1.Unbind();
       this->EBO1.Unbind();
+
+      kdr::Space::Vec3 testVec {3.f, 2.f, 1.f};
+      kdr::Debug::printVector(testVec);
     }
 
   protected:
@@ -72,7 +77,6 @@ class MainWindow : public kdr::Window::Window
       "resources/Shaders/default.vert",
       "resources/Shaders/default.frag"
     };
-
     kdr::Graphics::VAO VAO1;
     kdr::Graphics::VBO VBO1 {vertices, sizeof(vertices)};
     kdr::Graphics::EBO EBO1 {indices, sizeof(indices)};
