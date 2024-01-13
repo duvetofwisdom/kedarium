@@ -109,6 +109,24 @@ namespace kdr
        */
       GLFWwindow* getGlfwWindow() const
       { return this->glfwWindow; }
+      /**
+       * @brief Gets the current time in seconds.
+       *
+       * This function returns the current time in seconds using GLFW's glfwGetTime function.
+       *
+       * @return The current time in seconds.
+       */
+      float getCurrentTime() const
+      { return (float)glfwGetTime(); }
+      /**
+       * @brief Gets the time elapsed since the last frame.
+       *
+       * This function returns the time elapsed since the last frame, providing the delta time.
+       *
+       * @return The time elapsed since the last frame.
+       */
+      float getDeltaTime() const
+      { return this->deltaTime; }
 
       /**
        * @brief Sets the clear color for rendering.
@@ -159,10 +177,13 @@ namespace kdr
       unsigned int height {600};
       std::string title {"GLFW"};
 
-      GLFWwindow* glfwWindow;
+      GLFWwindow* glfwWindow {NULL};
       kdr::Color::RGBA clearColor {kdr::Color::Black};
 
       bool isMouseLocked {false};
+
+      float deltaTime {0.f};
+      float lastTime {(float)glfwGetTime()};
 
       /**
        * @brief Initializes GLFW.
@@ -202,6 +223,13 @@ namespace kdr
        * @brief Initializes the window.
        */
       void _initialize();
+      /**
+       * @brief Updates the time elapsed since the last frame.
+       *
+       * This function updates the delta time, representing the time elapsed since the last frame.
+       * It is called during each iteration of the main loop.
+       */
+      void _updateDeltaTime();
       /**
        * @brief Updates the window.
        */

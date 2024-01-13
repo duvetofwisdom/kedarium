@@ -76,9 +76,17 @@ void kdr::Window::_initialize()
   if (!this->_initializeOpenGLSettings()) return;
 }
 
+void kdr::Window::_updateDeltaTime()
+{
+  const float currentTime = (float)glfwGetTime();
+  this->deltaTime = currentTime - lastTime;
+  lastTime = currentTime;
+}
+
 void kdr::Window::_update()
 {
   glfwPollEvents();
+  this->_updateDeltaTime();
   this->update();
 
   if (!this->isMouseLocked) {
