@@ -60,8 +60,6 @@ class MainWindow : public kdr::Window::Window
       kdr::Space::Vec3 vecA {1.f, 3.f, 1.f};
       kdr::Space::Vec3 vecB {3.f, 1.f, 2.f};
       kdr::Space::Vec3 vecC {2.f, 2.f, 3.f};
-
-      kdr::Debug::printVector(2.3f * vecA);
     }
 
   protected:
