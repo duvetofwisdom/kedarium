@@ -112,6 +112,13 @@ namespace kdr
       GLFWwindow* getGlfwWindow() const
       { return this->glfwWindow; }
       /**
+       * @brief Checks if the window is maximized.
+       *
+       * @return True if the window is maximized, false otherwise.
+       */
+      bool getIsMaximized() const
+      { return this->isMaximized; }
+      /**
        * @brief Gets the current time in seconds.
        *
        * This function returns the current time in seconds using GLFW's glfwGetTime function.
@@ -157,6 +164,15 @@ namespace kdr
        */
       void setBoundCamera(kdr::Camera* camera)
       { this->boundCamera = camera; }
+
+      /**
+       * @brief Maximizes the window.
+       */
+      void maximize();
+      /**
+       * @brief Unmaximizes the window.
+       */
+      void unmaximize();
 
     protected:
       /**
@@ -209,6 +225,7 @@ namespace kdr
       GLuint boundShader {0};
       kdr::Camera* boundCamera {NULL};
 
+      bool isMaximized {false};
       bool isMouseLocked {false};
 
       float deltaTime {0.f};

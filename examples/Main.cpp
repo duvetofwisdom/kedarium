@@ -28,17 +28,52 @@ constexpr float CAMERA_SENSITIVITY {0.1f};
 
 // Vertices and Indices
 GLfloat vertices[] = {
-  -0.5f,  -0.5f, 0.f, 1.f, 1.f, 1.f,
-   0.0f,  -0.5f, 0.f, 1.f, 1.f, 1.f,
-   0.5f,  -0.5f, 0.f, 1.f, 1.f, 1.f,
-  -0.25f,  0.0f, 0.f, 1.f, 1.f, 1.f,
-   0.25f,  0.0f, 0.f, 1.f, 1.f, 1.f,
-   0.0f,   0.5f, 0.f, 1.f, 1.f, 1.f,
+  -0.5f,  -0.5f,  0.5f,  1.f, 0.f, 1.f,
+   0.0f,  -0.5f,  0.5f,  0.f, 1.f, 0.f,
+   0.5f,  -0.5f,  0.5f,  0.f, 0.f, 1.f,
+  -0.5f,  -0.5f,  0.0f,  1.f, 1.f, 0.f,
+   0.0f,  -0.5f,  0.0f,  0.f, 1.f, 1.f,
+   0.5f,  -0.5f,  0.0f,  1.f, 0.f, 1.f,
+  -0.5f,  -0.5f, -0.5f,  1.f, 0.f, 0.f,
+   0.0f,  -0.5f, -0.5f,  0.f, 1.f, 0.f,
+   0.5f,  -0.5f, -0.5f,  0.f, 0.f, 1.f,
+  -0.25f,  0.0f,  0.25f, 1.f, 1.f, 0.f,
+   0.25f,  0.0f,  0.25f, 0.f, 1.f, 1.f,
+  -0.25f,  0.0f, -0.25f, 1.f, 0.f, 1.f,
+   0.25f,  0.0f, -0.25f, 1.f, 0.f, 0.f,
+   0.f,    0.5f,  0.f,   0.f, 1.f, 0.f,
 };
 GLuint indices[] = {
-  0, 1, 3,
-  1, 2, 4,
-  3, 4, 5,
+  0, 1, 4,
+  0, 4, 3,
+  1, 2, 5,
+  1, 5, 4,
+  3, 4, 7,
+  3, 7, 6,
+  4, 5, 8,
+  4, 8, 7,
+  0, 1, 9,
+  1, 4, 9,
+  4, 3, 9,
+  3, 0, 9,
+  1, 2, 10,
+  2, 5, 10,
+  5, 4, 10,
+  4, 1, 10,
+  3, 4, 11,
+  4, 7, 11,
+  7, 6, 11,
+  6, 3, 11,
+  4, 5, 12,
+  5, 8, 12,
+  8, 7, 12,
+  7, 4, 12,
+  9, 10, 12,
+  9, 12, 11,
+  9, 10, 13,
+  10, 12, 13,
+  12, 11, 13,
+  11, 9, 13,
 };
 
 class MainWindow : public kdr::Window::Window
@@ -95,6 +130,19 @@ class MainWindow : public kdr::Window::Window
       {
         kdr::Graphics::useFillMode();
       }
+
+      if (kdr::Keys::isPressed(this->getGlfwWindow(), kdr::Key::F))
+      {
+        if (this->canMaximize)
+        {
+          this->getIsMaximized() ? this->unmaximize() : this->maximize();
+          this->canMaximize = false;
+        }
+      }
+      else
+      {
+        this->canMaximize = true;
+      }
     }
     
     void render()
@@ -112,6 +160,8 @@ class MainWindow : public kdr::Window::Window
     kdr::Graphics::VAO VAO1;
     kdr::Graphics::VBO VBO1 {vertices, sizeof(vertices)};
     kdr::Graphics::EBO EBO1 {indices, sizeof(indices)};
+
+    bool canMaximize {true};
 };
 
 int main()

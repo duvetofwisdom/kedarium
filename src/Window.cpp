@@ -20,6 +20,38 @@ void kdr::Window::loop()
   }
 }
 
+void kdr::Window::maximize()
+{
+  GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+  const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+  glfwSetWindowMonitor(
+    this->glfwWindow,
+    monitor,
+    0,
+    0,
+    mode->width,
+    mode->height,
+    mode->refreshRate
+  );
+  this->isMaximized = true;
+}
+
+void kdr::Window::unmaximize()
+{
+  GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+  const GLFWvidmode* mode = glfwGetVideoMode(monitor); 
+  glfwSetWindowMonitor(
+    this->glfwWindow,
+    NULL,
+    mode->width / 2 - 400,
+    mode->height / 2 - 300,
+    800,
+    600,
+    GLFW_DONT_CARE
+  );
+  this->isMaximized = false;
+}
+
 bool kdr::Window::_initializeGlfw()
 {
   glfwInit();
@@ -65,6 +97,7 @@ bool kdr::Window::_initializeGlew()
 
 bool kdr::Window::_initializeOpenGLSettings()
 {
+  glEnable(GL_DEPTH_TEST);
   return true;
 }
 
@@ -115,7 +148,7 @@ void kdr::Window::_update()
 
 void kdr::Window::_render()
 {
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   this->render();
   glfwSwapBuffers(this->glfwWindow);
 }
