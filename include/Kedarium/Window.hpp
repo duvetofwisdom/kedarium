@@ -7,6 +7,8 @@
 #include <string>
 
 #include "Color.hpp"
+#include "Graphics.hpp"
+#include "Camera.hpp"
 
 namespace kdr
 {
@@ -101,6 +103,41 @@ namespace kdr
       { glfwSetWindowShouldClose(this->glfwWindow, GLFW_TRUE); }
 
       /**
+       * @brief Gets the GLFW window associated with this object.
+       *
+       * This function returns the pointer to the GLFW window associated with this object.
+       *
+       * @return A pointer to the GLFW window.
+       */
+      GLFWwindow* getGlfwWindow() const
+      { return this->glfwWindow; }
+      /**
+       * @brief Checks if the window is maximized.
+       *
+       * @return True if the window is maximized, false otherwise.
+       */
+      bool getIsMaximized() const
+      { return this->isMaximized; }
+      /**
+       * @brief Gets the current time in seconds.
+       *
+       * This function returns the current time in seconds using GLFW's glfwGetTime function.
+       *
+       * @return The current time in seconds.
+       */
+      float getCurrentTime() const
+      { return (float)glfwGetTime(); }
+      /**
+       * @brief Gets the time elapsed since the last frame.
+       *
+       * This function returns the time elapsed since the last frame, providing the delta time.
+       *
+       * @return The time elapsed since the last frame.
+       */
+      float getDeltaTime() const
+      { return this->deltaTime; }
+
+      /**
        * @brief Sets the clear color for rendering.
        *
        * This function sets the clear color for rendering and updates the OpenGL clear color.
@@ -117,6 +154,25 @@ namespace kdr
           clearColor.alpha
         );
       }
+      /**
+       * @brief Sets the camera to be bound to the camera controller.
+       *
+       * This function sets the specified camera as the one bound to the camera controller.
+       * It allows the camera controller to interact with and control the specified camera.
+       *
+       * @param camera A pointer to the camera to be bound. Pass a null pointer to unbind any existing camera.
+       */
+      void setBoundCamera(kdr::Camera* camera)
+      { this->boundCamera = camera; }
+
+      /**
+       * @brief Maximizes the window.
+       */
+      void maximize();
+      /**
+       * @brief Unmaximizes the window.
+       */
+      void unmaximize();
 
     protected:
       /**
@@ -134,13 +190,46 @@ namespace kdr
        */
       virtual void render() = 0;
 
+      /**
+       * @brief Sets the flag indicating whether the mouse is locked.
+       *
+       * This function sets the flag indicating whether the mouse is locked within the window.
+       *
+       * @param isMouseLocked True if the mouse should be locked, false otherwise.
+       */
+      void setIsMouseLocked(const bool isMouseLocked)
+      { this->isMouseLocked = isMouseLocked; }
+
+      /**
+       * @brief Binds the specified shader for rendering.
+       *
+       * This function sets the specified shader as the currently active shader program for rendering.
+       * It also updates the internal state to keep track of the currently bound shader.
+       *
+       * @param shader The shader to be bound for rendering.
+       */
+      void bindShader(const kdr::Graphics::Shader& shader)
+      {
+        glUseProgram(shader.getID());
+        this->boundShader = shader.getID();
+      }
+
     private:
       unsigned int width {800};
       unsigned int height {600};
       std::string title {"GLFW"};
 
-      GLFWwindow* glfwWindow;
+      GLFWwindow* glfwWindow {NULL};
       kdr::Color::RGBA clearColor {kdr::Color::Black};
+
+      GLuint boundShader {0};
+      kdr::Camera* boundCamera {NULL};
+
+      bool isMaximized {false};
+      bool isMouseLocked {false};
+
+      float deltaTime {0.f};
+      float lastTime {(float)glfwGetTime()};
 
       /**
        * @brief Initializes GLFW.
@@ -180,6 +269,20 @@ namespace kdr
        * @brief Initializes the window.
        */
       void _initialize();
+      /**
+       * @brief Updates the time elapsed since the last frame.
+       *
+       * This function updates the delta time, representing the time elapsed since the last frame.
+       * It is called during each iteration of the main loop.
+       */
+      void _updateDeltaTime();
+      /**
+       * @brief Updates the camera.
+       *
+       * This function updates the camera's internal state, such as its position and orientation.
+       * It is called during each iteration of the main loop.
+       */
+      void _updateCamera();
       /**
        * @brief Updates the window.
        */
