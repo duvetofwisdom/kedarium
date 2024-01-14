@@ -66,6 +66,9 @@ class MainWindow : public kdr::Window::Window
       this->VAO1.Unbind();
       this->VBO1.Unbind();
       this->EBO1.Unbind();
+    
+      kdr::Graphics::setPointSize(5.f);
+      kdr::Graphics::setLineWidth(2.f);
     }
 
   protected:
@@ -78,6 +81,19 @@ class MainWindow : public kdr::Window::Window
       else if (kdr::Keys::isPressed(this->getGlfwWindow(), kdr::Key::Escape))
       {
         this->setIsMouseLocked(false);
+      }
+
+      if (kdr::Keys::isPressed(this->getGlfwWindow(), kdr::Key::C))
+      {
+        kdr::Graphics::usePointMode();
+      }
+      else if (kdr::Keys::isPressed(this->getGlfwWindow(), kdr::Key::V))
+      {
+        kdr::Graphics::useLineMode();
+      }
+      else if (kdr::Keys::isPressed(this->getGlfwWindow(), kdr::Key::B))
+      {
+        kdr::Graphics::useFillMode();
       }
     }
     

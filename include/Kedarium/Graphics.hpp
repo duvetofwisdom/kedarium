@@ -18,6 +18,37 @@ namespace kdr
   namespace Graphics
   {
     /**
+     * @brief Sets the OpenGL polygon mode to point mode.
+     */
+    inline void usePointMode()
+    { glPolygonMode(GL_FRONT_AND_BACK, GL_POINT); }
+    /**
+     * @brief Sets the OpenGL polygon mode to line mode.
+     */
+    inline void useLineMode()
+    { glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); }
+    /**
+     * @brief Sets the OpenGL polygon mode to fill mode.
+     */
+    inline void useFillMode()
+    { glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); }
+
+    /**
+     * @brief Sets the size of points when rendering in point mode.
+     *
+     * @param size The size of points.
+     */
+    inline void setPointSize(const float size)
+    { glPointSize(size); }
+    /**
+     * @brief Sets the width of lines when rendering in line mode.
+     *
+     * @param width The width of lines.
+     */
+    inline void setLineWidth(const float width)
+    { glLineWidth(width); }
+
+    /**
      * @class Shader
      * @brief Represents a shader program for use in graphics rendering.
      *
