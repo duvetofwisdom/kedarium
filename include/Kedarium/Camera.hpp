@@ -2,7 +2,9 @@
 #define KDR_CAMERA_HPP
 
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
+#include "Keys.hpp"
 #include "Space.hpp"
 
 namespace kdr
@@ -17,17 +19,20 @@ namespace kdr
     float aspect;
     float zNear;
     float zFar;
+    float speed;
 
     /**
-     * @brief Constructs CameraProps with specified values.
+     * @brief Constructs a CameraProps object with specified parameters.
      *
-     * @param fov The field of view angle in degrees.
-     * @param aspect The aspect ratio of the viewport (width / height).
+     * @param position The position of the camera in 3D space.
+     * @param fov The field of view of the camera in degrees.
+     * @param aspect The aspect ratio of the camera (width divided by height).
      * @param zNear The distance to the near clipping plane.
      * @param zFar The distance to the far clipping plane.
+     * @param speed The speed at which the camera can move.
      */
-    CameraProps(const kdr::Space::Vec3& position, const float fov, const float aspect, const float zNear, const float zFar)
-    : position(position), fov(fov), aspect(aspect), zNear(zNear), zFar(zFar)
+    CameraProps(const kdr::Space::Vec3& position, const float fov, const float aspect, const float zNear, const float zFar, const float speed)
+    : position(position), fov(fov), aspect(aspect), zNear(zNear), zFar(zFar), speed(speed)
     {}
   };
 
@@ -43,18 +48,20 @@ namespace kdr
        * @param cameraProps The camera properties.
        */
       Camera(const kdr::CameraProps& cameraProps)
-      : position(cameraProps.position), fov(cameraProps.fov), aspect(cameraProps.aspect), zNear(cameraProps.zNear), zFar(cameraProps.zFar)
+      : position(cameraProps.position), fov(cameraProps.fov), aspect(cameraProps.aspect), zNear(cameraProps.zNear), zFar(cameraProps.zFar), speed(cameraProps.speed)
       {}
       /**
-       * @brief Constructs a camera with specified properties.
+       * @brief Constructs a camera with specified parameters.
        *
+       * @param position The position of the camera.
        * @param fov The field of view angle in degrees.
-       * @param aspect The aspect ratio of the viewport (width / height).
+       * @param aspect The aspect ratio (width / height) of the camera viewport.
        * @param zNear The distance to the near clipping plane.
        * @param zFar The distance to the far clipping plane.
+       * @param speed The movement speed of the camera.
        */
-      Camera(const kdr::Space::Vec3& position, const float fov, const float aspect, const float zNear, const float zFar)
-      : position(position), fov(fov), aspect(aspect), zNear(zNear), zFar(zFar)
+      Camera(const kdr::Space::Vec3& position, const float fov, const float aspect, const float zNear, const float zFar, const float speed)
+      : position(position), fov(fov), aspect(aspect), zNear(zNear), zFar(zFar), speed(speed)
       {}
 
       /**
@@ -87,6 +94,13 @@ namespace kdr
       { return this->zFar; }
 
       /**
+       * @brief Updates the keys for camera movement.
+       *
+       * @param window The GLFW window.
+       * @param deltaTime The time elapsed since the last frame.
+       */
+      void updateKeys(GLFWwindow* window, const float deltaTime);
+      /**
        * @brief Updates the camera matrix based on current camera properties.
        *
        * This function calculates and updates the camera matrix by combining the view and
@@ -113,6 +127,7 @@ namespace kdr
       float aspect;
       float zNear;
       float zFar;
+      float speed;
   };
 }
 

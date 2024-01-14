@@ -83,10 +83,25 @@ void kdr::Window::_updateDeltaTime()
   lastTime = currentTime;
 }
 
+void kdr::Window::_updateCamera()
+{
+  if (
+    this->boundCamera == NULL ||
+    this->boundShader == 0
+  ) return;
+  if (this->isMouseLocked)
+  {
+    this->boundCamera->updateKeys(this->glfwWindow, this->deltaTime);
+  }
+  this->boundCamera->updateMatrix();
+  this->boundCamera->applyMatrix(this->boundShader);
+}
+
 void kdr::Window::_update()
 {
   glfwPollEvents();
   this->_updateDeltaTime();
+  this->_updateCamera();
   this->update();
 
   if (!this->isMouseLocked) {

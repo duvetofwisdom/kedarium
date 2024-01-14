@@ -23,6 +23,7 @@ constexpr float CAMERA_FOV    {60.f};
 constexpr float CAMERA_ASPECT {WINDOW_WIDTH / (float)WINDOW_HEIGHT};
 constexpr float CAMERA_NEAR   {0.1f};
 constexpr float CAMERA_FAR    {100.f};
+constexpr float CAMERA_SPEED  {3.f};
 
 // Vertices and Indices
 GLfloat vertices[] = {
@@ -81,21 +82,12 @@ class MainWindow : public kdr::Window::Window
     
     void render()
     {
-      defaultShader.Use();
+      this->bindShader(this->defaultShader);
       VAO1.Bind();
-      mainCamera.updateMatrix();
-      mainCamera.applyMatrix(this->defaultShader.getID());
       glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
     }
 
   private:
-    kdr::Camera mainCamera {
-      {0.f, 0.f, -3.f},
-      CAMERA_FOV,
-      CAMERA_ASPECT,
-      CAMERA_NEAR,
-      CAMERA_FAR
-    };
     kdr::Graphics::Shader defaultShader {
       "resources/Shaders/default.vert",
       "resources/Shaders/default.frag"
@@ -110,6 +102,16 @@ int main()
   // Clear Color
   kdr::Color::RGBA clearColor {0, 0, 0, 1.f};
 
+  // Camera
+  kdr::Camera mainCamera {
+    {0.f, 0.f, -3.f},
+    CAMERA_FOV,
+    CAMERA_ASPECT,
+    CAMERA_NEAR,
+    CAMERA_FAR,
+    CAMERA_SPEED
+  };
+
   // Main Window
   MainWindow mainWindow {
     WINDOW_WIDTH,
@@ -118,6 +120,7 @@ int main()
   };
   mainWindow.initialize();
   mainWindow.setClearColor(clearColor);
+  mainWindow.setBoundCamera(&mainCamera);
 
   // Version Info
   kdr::Core::printEngineInfo();

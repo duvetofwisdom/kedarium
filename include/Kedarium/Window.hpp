@@ -7,6 +7,8 @@
 #include <string>
 
 #include "Color.hpp"
+#include "Graphics.hpp"
+#include "Camera.hpp"
 
 namespace kdr
 {
@@ -145,6 +147,16 @@ namespace kdr
           clearColor.alpha
         );
       }
+      /**
+       * @brief Sets the camera to be bound to the camera controller.
+       *
+       * This function sets the specified camera as the one bound to the camera controller.
+       * It allows the camera controller to interact with and control the specified camera.
+       *
+       * @param camera A pointer to the camera to be bound. Pass a null pointer to unbind any existing camera.
+       */
+      void setBoundCamera(kdr::Camera* camera)
+      { this->boundCamera = camera; }
 
     protected:
       /**
@@ -172,6 +184,20 @@ namespace kdr
       void setIsMouseLocked(const bool isMouseLocked)
       { this->isMouseLocked = isMouseLocked; }
 
+      /**
+       * @brief Binds the specified shader for rendering.
+       *
+       * This function sets the specified shader as the currently active shader program for rendering.
+       * It also updates the internal state to keep track of the currently bound shader.
+       *
+       * @param shader The shader to be bound for rendering.
+       */
+      void bindShader(const kdr::Graphics::Shader& shader)
+      {
+        glUseProgram(shader.getID());
+        this->boundShader = shader.getID();
+      }
+
     private:
       unsigned int width {800};
       unsigned int height {600};
@@ -179,6 +205,9 @@ namespace kdr
 
       GLFWwindow* glfwWindow {NULL};
       kdr::Color::RGBA clearColor {kdr::Color::Black};
+
+      GLuint boundShader {0};
+      kdr::Camera* boundCamera {NULL};
 
       bool isMouseLocked {false};
 
@@ -230,6 +259,13 @@ namespace kdr
        * It is called during each iteration of the main loop.
        */
       void _updateDeltaTime();
+      /**
+       * @brief Updates the camera.
+       *
+       * This function updates the camera's internal state, such as its position and orientation.
+       * It is called during each iteration of the main loop.
+       */
+      void _updateCamera();
       /**
        * @brief Updates the window.
        */
