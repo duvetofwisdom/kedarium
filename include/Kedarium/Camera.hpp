@@ -20,6 +20,7 @@ namespace kdr
     float zNear;
     float zFar;
     float speed;
+    float sensitivity;
 
     /**
      * @brief Constructs a CameraProps object with specified parameters.
@@ -30,9 +31,10 @@ namespace kdr
      * @param zNear The distance to the near clipping plane.
      * @param zFar The distance to the far clipping plane.
      * @param speed The speed at which the camera can move.
+     * @param sensitivity The sensitivity of the camera to mouse movement.
      */
-    CameraProps(const kdr::Space::Vec3& position, const float fov, const float aspect, const float zNear, const float zFar, const float speed)
-    : position(position), fov(fov), aspect(aspect), zNear(zNear), zFar(zFar), speed(speed)
+    CameraProps(const kdr::Space::Vec3& position, const float fov, const float aspect, const float zNear, const float zFar, const float speed, const float sensitivity)
+    : position(position), fov(fov), aspect(aspect), zNear(zNear), zFar(zFar), speed(speed), sensitivity(sensitivity)
     {}
   };
 
@@ -48,7 +50,7 @@ namespace kdr
        * @param cameraProps The camera properties.
        */
       Camera(const kdr::CameraProps& cameraProps)
-      : position(cameraProps.position), fov(cameraProps.fov), aspect(cameraProps.aspect), zNear(cameraProps.zNear), zFar(cameraProps.zFar), speed(cameraProps.speed)
+      : position(cameraProps.position), fov(cameraProps.fov), aspect(cameraProps.aspect), zNear(cameraProps.zNear), zFar(cameraProps.zFar), speed(cameraProps.speed), sensitivity(cameraProps.sensitivity)
       {}
       /**
        * @brief Constructs a camera with specified parameters.
@@ -59,9 +61,10 @@ namespace kdr
        * @param zNear The distance to the near clipping plane.
        * @param zFar The distance to the far clipping plane.
        * @param speed The movement speed of the camera.
+       * @param sensitivity The sensitivity of the camera to mouse movement.
        */
-      Camera(const kdr::Space::Vec3& position, const float fov, const float aspect, const float zNear, const float zFar, const float speed)
-      : position(position), fov(fov), aspect(aspect), zNear(zNear), zFar(zFar), speed(speed)
+      Camera(const kdr::Space::Vec3& position, const float fov, const float aspect, const float zNear, const float zFar, const float speed, const float sensitivity)
+      : position(position), fov(fov), aspect(aspect), zNear(zNear), zFar(zFar), speed(speed), sensitivity(sensitivity)
       {}
 
       /**
@@ -92,6 +95,20 @@ namespace kdr
        */
       float getZFar() const
       { return this->zFar; }
+      /**
+       * @brief Gets the movement speed of the camera.
+       *
+       * @return The movement speed of the camera.
+       */
+      float getSpeed() const
+      { return this->speed; }
+      /**
+       * @brief Gets the sensitivity of the camera.
+       *
+       * @return The sensitivity of the camera.
+       */
+      float getSensitivity() const
+      { return this->sensitivity; }
 
       /**
        * @brief Updates the keys for camera movement.
@@ -100,6 +117,14 @@ namespace kdr
        * @param deltaTime The time elapsed since the last frame.
        */
       void updateKeys(GLFWwindow* window, const float deltaTime);
+      /**
+       * @brief Updates the mouse input for camera control.
+       *
+       * This function updates the camera's orientation based on mouse movement.
+       *
+       * @param window The GLFW window.
+       */
+      void updateMouse(GLFWwindow* window);
       /**
        * @brief Updates the camera matrix based on current camera properties.
        *
@@ -121,13 +146,19 @@ namespace kdr
 
     private:
       kdr::Space::Vec3 position {0.f};
-      kdr::Space::Mat4 cameraMatrix {1.f};
+      kdr::Space::Vec3 up       {0.f, 1.f, 0.f};
+      kdr::Space::Vec3 front    {0.f, 0.f, -1.f};
+      kdr::Space::Mat4 matrix   {1.f};
 
       float fov;
       float aspect;
       float zNear;
       float zFar;
       float speed;
+      float sensitivity;
+
+      float yaw {-90.f};
+      float pitch {0.f};
   };
 }
 

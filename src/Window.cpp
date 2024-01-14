@@ -92,6 +92,7 @@ void kdr::Window::_updateCamera()
   if (this->isMouseLocked)
   {
     this->boundCamera->updateKeys(this->glfwWindow, this->deltaTime);
+    this->boundCamera->updateMouse(this->glfwWindow);
   }
   this->boundCamera->updateMatrix();
   this->boundCamera->applyMatrix(this->boundShader);

@@ -19,11 +19,12 @@ constexpr unsigned int WINDOW_HEIGHT {600};
 const     std::string  WINDOW_TITLE  {"GLFW"};
 
 // Camera Settings
-constexpr float CAMERA_FOV    {60.f};
-constexpr float CAMERA_ASPECT {WINDOW_WIDTH / (float)WINDOW_HEIGHT};
-constexpr float CAMERA_NEAR   {0.1f};
-constexpr float CAMERA_FAR    {100.f};
-constexpr float CAMERA_SPEED  {3.f};
+constexpr float CAMERA_FOV         {60.f};
+constexpr float CAMERA_ASPECT      {WINDOW_WIDTH / (float)WINDOW_HEIGHT};
+constexpr float CAMERA_NEAR        {0.1f};
+constexpr float CAMERA_FAR         {100.f};
+constexpr float CAMERA_SPEED       {3.f};
+constexpr float CAMERA_SENSITIVITY {0.1f};
 
 // Vertices and Indices
 GLfloat vertices[] = {
@@ -104,12 +105,13 @@ int main()
 
   // Camera
   kdr::Camera mainCamera {
-    {0.f, 0.f, -3.f},
+    {0.f, 0.f, 3.f},
     CAMERA_FOV,
     CAMERA_ASPECT,
     CAMERA_NEAR,
     CAMERA_FAR,
-    CAMERA_SPEED
+    CAMERA_SPEED,
+    CAMERA_SENSITIVITY
   };
 
   // Main Window

@@ -118,6 +118,32 @@ namespace kdr
             static_cast<float>(vec.y * scalar)
           );
         }
+
+        /**
+         * @brief Adds a vector to the current vector.
+         *
+         * @param vec The vector to be added.
+         * @return Reference to the modified vector.
+         */
+        kdr::Space::Vec2& operator+=(const kdr::Space::Vec2& vec)
+        {
+          this->x += vec.x;
+          this->y += vec.y;
+          return *this;
+        }
+
+        /**
+         * @brief Subtracts a vector from the current vector.
+         *
+         * @param vec The vector to be subtracted.
+         * @return Reference to the modified vector.
+         */
+        kdr::Space::Vec2& operator-=(const kdr::Space::Vec2& vec)
+        {
+          this->x -= vec.x;
+          this->y -= vec.y;
+          return *this;
+        }
     };
 
     /**
@@ -217,6 +243,34 @@ namespace kdr
             static_cast<float>(vec.z * scalar)
           );
         }
+
+        /**
+         * @brief Adds a vector to the current vector.
+         *
+         * @param vec The vector to be added.
+         * @return Reference to the modified vector.
+         */
+        kdr::Space::Vec3& operator+=(const kdr::Space::Vec3& vec)
+        {
+          this->x += vec.x;
+          this->y += vec.y;
+          this->z += vec.z;
+          return *this;
+        }
+
+        /**
+         * @brief Subtracts a vector from the current vector.
+         *
+         * @param vec The vector to be subtracted.
+         * @return Reference to the modified vector.
+         */
+        kdr::Space::Vec3& operator-=(const kdr::Space::Vec3& vec)
+        {
+          this->x -= vec.x;
+          this->y -= vec.y;
+          this->z -= vec.z;
+          return *this;
+        }
     };
 
     /**
@@ -232,7 +286,6 @@ namespace kdr
     {
       return vecA.x * vecB.x + vecA.y * vecB.y;
     }
-
     /**
      * @brief Calculates the dot product of two 3D vectors.
      *
@@ -245,6 +298,36 @@ namespace kdr
     inline float dot(const kdr::Space::Vec3& vecA, const kdr::Space::Vec3& vecB)
     {
       return vecA.x * vecB.x + vecA.y * vecB.y + vecA.z * vecB.z;
+    }
+
+    /**
+     * @brief Normalizes a 2D vector.
+     *
+     * @param vec The input 2D vector.
+     * @return The normalized 2D vector.
+     */
+    inline kdr::Space::Vec2 normalize(const kdr::Space::Vec2& vec)
+    {
+      float length = sqrtf(vec.x * vec.x + vec.y * vec.y);
+      return kdr::Space::Vec2(
+        vec.x / length,
+        vec.y / length
+      );
+    }
+    /**
+     * @brief Normalizes a 3D vector.
+     *
+     * @param vec The input 3D vector.
+     * @return The normalized 3D vector.
+     */
+    inline kdr::Space::Vec3 normalize(const kdr::Space::Vec3& vec)
+    {
+      float length = sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+      return kdr::Space::Vec3(
+        vec.x / length,
+        vec.y / length,
+        vec.z / length
+      );
     }
 
     /**
@@ -390,6 +473,18 @@ namespace kdr
      * @return The perspective projection matrix.
      */
     kdr::Space::Mat4 perspective(const float fov, const float aspect, const float zNear, const float zFar);
+    /**
+     * @brief Creates a view matrix using the lookAt transformation.
+     *
+     * This function constructs a view matrix by specifying the eye position, target position, and up vector.
+     * The resulting matrix can be used to transform objects to the view space.
+     *
+     * @param eye The position of the camera.
+     * @param target The position the camera is looking at.
+     * @param up The up vector indicating the camera's orientation.
+     * @return The view matrix.
+     */
+    kdr::Space::Mat4 lookAt(const kdr::Space::Vec3& eye, const kdr::Space::Vec3& target, const kdr::Space::Vec3& up);
   }
 }
 
