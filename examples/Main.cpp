@@ -11,6 +11,7 @@
 #include "Kedarium/Graphics.hpp"
 #include "Kedarium/Window.hpp"
 #include "Kedarium/Camera.hpp"
+#include "Kedarium/Solids.hpp"
 #include "Kedarium/Debug.hpp"
 
 // Constants
@@ -83,25 +84,11 @@ class MainWindow : public kdr::Window::Window
   public:
     ~MainWindow()
     {
-      this->VAO1.Delete();
-      this->VBO1.Delete();
-      this->EBO1.Delete();
       defaultShader.Delete();
     }
 
     void initialize()
     {
-      this->VAO1.Bind();
-      this->VBO1.Bind();
-      this->EBO1.Bind();
-
-      this->VAO1.LinkAttrib(this->VBO1, 0, 3, GL_FLOAT, 6 * sizeof(GLfloat), (void*)0);
-      this->VAO1.LinkAttrib(this->VBO1, 1, 3, GL_FLOAT, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
-
-      this->VAO1.Unbind();
-      this->VBO1.Unbind();
-      this->EBO1.Unbind();
-    
       kdr::Graphics::setPointSize(5.f);
       kdr::Graphics::setLineWidth(2.f);
     }
@@ -148,19 +135,13 @@ class MainWindow : public kdr::Window::Window
     void render()
     {
       this->bindShader(this->defaultShader);
-      VAO1.Bind();
-      glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
     }
 
   private:
-    kdr::Graphics::Shader defaultShader {
+    kdr::Graphics::Shader defaultShader { 
       "resources/Shaders/default.vert",
       "resources/Shaders/default.frag"
     };
-    kdr::Graphics::VAO VAO1;
-    kdr::Graphics::VBO VBO1 {vertices, sizeof(vertices)};
-    kdr::Graphics::EBO EBO1 {indices, sizeof(indices)};
-
     bool canMaximize {true};
 };
 
