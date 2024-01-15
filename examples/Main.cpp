@@ -1,5 +1,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <vector>
 #include <iostream>
 #include <string>
 
@@ -91,6 +92,19 @@ class MainWindow : public kdr::Window::Window
     {
       kdr::Graphics::setPointSize(5.f);
       kdr::Graphics::setLineWidth(2.f);
+
+      kdr::Solids::Cube* cube;
+      for (int z = 0; z < 3; z++)
+      {
+        for (int x = 0; x < 3; x++)
+        {
+          cube = new kdr::Solids::Cube({
+            {(x - 1) * 2.f, 0.f, (z - 1) * 2.f},
+            1.f
+          });
+          this->cubes.push_back(cube);
+        }
+      }
     }
 
   protected:
@@ -135,6 +149,11 @@ class MainWindow : public kdr::Window::Window
     void render()
     {
       this->bindShader(this->defaultShader);
+      for (kdr::Solids::Cube* cube : this->cubes)
+      {
+        cube->applyModelMatrix(this->defaultShader.getID());
+        cube->render();
+      }
     }
 
   private:
@@ -142,6 +161,7 @@ class MainWindow : public kdr::Window::Window
       "resources/Shaders/default.vert",
       "resources/Shaders/default.frag"
     };
+    std::vector<kdr::Solids::Cube*> cubes;
     bool canMaximize {true};
 };
 
