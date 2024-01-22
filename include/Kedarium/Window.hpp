@@ -213,6 +213,19 @@ namespace kdr
         glUseProgram(shader.getID());
         this->boundShader = shader.getID();
       }
+      /**
+       * @brief Binds the specified texture for rendering.
+       *
+       * This function sets the specified texture unit in the bound shader and binds the texture.
+       * It is used to prepare a texture for rendering.
+       *
+       * @param texture The texture to be bound for rendering.
+       */
+      void bindTexture(const kdr::Graphics::Texture& texture)
+      {
+        texture.TextureUnit(this->boundShader, "tex0", 0);
+        texture.Bind();
+      }
 
     private:
       unsigned int width {800};

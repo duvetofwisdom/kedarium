@@ -311,7 +311,7 @@ namespace kdr
          * @param uniform The name of the uniform variable in the shader.
          * @param unit The texture unit to set.
          */
-        void TextureUnit(const GLuint shaderID, const std::string& uniform, GLuint unit)
+        void TextureUnit(const GLuint shaderID, const std::string& uniform, GLuint unit) const
         {
           GLuint texUnitLoc = glGetUniformLocation(shaderID, uniform.c_str());
           glUniform1i(texUnitLoc, unit);
@@ -319,17 +319,17 @@ namespace kdr
         /**
          * @brief Binds the texture to its designated texture target.
          */
-        void Bind()
+        void Bind() const
         { glBindTexture(this->type, this->ID); };
         /**
          * @brief Unbinds the texture.
          */
-        void Unbind()
+        void Unbind() const
         { glBindTexture(this->type, 0); };
         /**
          * @brief Deletes the texture, releasing associated OpenGL resources.
          */
-        void Delete()
+        void Delete() const
         { glDeleteTextures(1, &this->ID); }
 
       private:

@@ -93,18 +93,17 @@ class MainWindow : public kdr::Window::Window
       kdr::Graphics::setPointSize(5.f);
       kdr::Graphics::setLineWidth(2.f);
 
-      kdr::Solids::Cuboid* cuboid;
+      kdr::Solids::Pyramid* pyramid;
       for (int z = 0; z < 3; z++)
       {
         for (int x = 0; x < 3; x++)
         {
-          cuboid = new kdr::Solids::Cuboid({
-            {(x - 1) * 3.f, 0.f, (z - 1) * 2.f},
-            2.f,
+          pyramid = new kdr::Solids::Pyramid({
+            {(x - 1) * 2.f, 0.f, (z - 1) * 2.f},
             1.f,
             1.f
           });
-          this->cuboids.push_back(cuboid);
+          this->pyramids.push_back(pyramid);
         }
       }
     }
@@ -151,13 +150,12 @@ class MainWindow : public kdr::Window::Window
     void render()
     {
       this->bindShader(this->defaultShader);
-      this->mercuryTexture.TextureUnit(this->defaultShader.getID(), "tex0", 0);
-      this->mercuryTexture.Bind();
+      this->bindTexture(this->mercuryTexture);
 
-      for (kdr::Solids::Cuboid* cuboid : this->cuboids)
+      for (kdr::Solids::Pyramid* pyramid : this->pyramids)
       {
-        cuboid->applyModelMatrix(this->defaultShader.getID());
-        cuboid->render();
+        pyramid->applyModelMatrix(this->defaultShader.getID());
+        pyramid->render();
       }
     }
 
@@ -172,7 +170,7 @@ class MainWindow : public kdr::Window::Window
       GL_TEXTURE0,
       GL_UNSIGNED_BYTE
     };
-    std::vector<kdr::Solids::Cuboid*> cuboids;
+    std::vector<kdr::Solids::Pyramid*> pyramids;
     bool canMaximize {true};
 };
 
