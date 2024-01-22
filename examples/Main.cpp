@@ -93,16 +93,18 @@ class MainWindow : public kdr::Window::Window
       kdr::Graphics::setPointSize(5.f);
       kdr::Graphics::setLineWidth(2.f);
 
-      kdr::Solids::Cube* cube;
+      kdr::Solids::Cuboid* cuboid;
       for (int z = 0; z < 3; z++)
       {
         for (int x = 0; x < 3; x++)
         {
-          cube = new kdr::Solids::Cube({
-            {(x - 1) * 2.f, 0.f, (z - 1) * 2.f},
+          cuboid = new kdr::Solids::Cuboid({
+            {(x - 1) * 3.f, 0.f, (z - 1) * 2.f},
+            2.f,
+            1.f,
             1.f
           });
-          this->cubes.push_back(cube);
+          this->cuboids.push_back(cuboid);
         }
       }
     }
@@ -152,11 +154,10 @@ class MainWindow : public kdr::Window::Window
       this->mercuryTexture.TextureUnit(this->defaultShader.getID(), "tex0", 0);
       this->mercuryTexture.Bind();
 
-      for (kdr::Solids::Cube* cube : this->cubes)
+      for (kdr::Solids::Cuboid* cuboid : this->cuboids)
       {
-
-        cube->applyModelMatrix(this->defaultShader.getID());
-        cube->render();
+        cuboid->applyModelMatrix(this->defaultShader.getID());
+        cuboid->render();
       }
     }
 
@@ -171,7 +172,7 @@ class MainWindow : public kdr::Window::Window
       GL_TEXTURE0,
       GL_UNSIGNED_BYTE
     };
-    std::vector<kdr::Solids::Cube*> cubes;
+    std::vector<kdr::Solids::Cuboid*> cuboids;
     bool canMaximize {true};
 };
 
