@@ -90,3 +90,40 @@ void kdr::Graphics::VAO::LinkAttrib(const kdr::Graphics::VBO& VBO, GLuint layout
   glEnableVertexAttribArray(layout);
   VBO.Unbind();
 }
+
+kdr::Graphics::Texture::Texture(const std::string& pngPath, GLenum type, GLenum slot, GLenum pixelType) : type(type)
+{
+  int imgWidth {0};
+  int imgHeight {0};
+  bool hasAlpha {false};
+  GLubyte* imageData {NULL};
+  kdr::Image::loadFromPng(pngPath, &imageData, imgWidth, imgHeight, hasAlpha);
+
+  if (!imageData)
+  {
+    return;
+  }
+
+  glGenTextures(1, &this->ID);
+  glActiveTexture(slot);
+  glBindTexture(this->type, this->ID);
+
+  glTexParameteri(this->type, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  glTexParameteri(this->type, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+  glTexImage2D(
+    this->type,
+    0,
+    GL_RGBA,
+    imgWidth,
+    imgHeight,
+    0,
+    hasAlpha ? GL_RGBA : GL_RGB,
+    pixelType,
+    imageData
+  );
+  glGenerateMipmap(this->type);
+
+  glBindTexture(slot, 0);
+  delete imageData;
+}

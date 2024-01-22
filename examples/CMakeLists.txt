@@ -8,7 +8,7 @@ add_executable(
 target_include_directories(Kedarium PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
 # Libraries
-target_link_libraries(example PRIVATE Kedarium GLEW glfw)
+target_link_libraries(example PRIVATE Kedarium GLEW glfw png)
 if (APPLE)
   target_link_libraries(example PRIVATE "-framework OpenGL")
 else()

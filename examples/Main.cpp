@@ -5,7 +5,6 @@
 #include <string>
 
 #include "Kedarium/Core.hpp"
-#include "Kedarium/File.hpp"
 #include "Kedarium/Color.hpp"
 #include "Kedarium/Keys.hpp"
 #include "Kedarium/Space.hpp"
@@ -86,6 +85,7 @@ class MainWindow : public kdr::Window::Window
     ~MainWindow()
     {
       defaultShader.Delete();
+      mercuryTexture.Delete();
     }
 
     void initialize()
@@ -149,8 +149,12 @@ class MainWindow : public kdr::Window::Window
     void render()
     {
       this->bindShader(this->defaultShader);
+      this->mercuryTexture.TextureUnit(this->defaultShader.getID(), "tex0", 0);
+      this->mercuryTexture.Bind();
+
       for (kdr::Solids::Cube* cube : this->cubes)
       {
+
         cube->applyModelMatrix(this->defaultShader.getID());
         cube->render();
       }
@@ -160,6 +164,12 @@ class MainWindow : public kdr::Window::Window
     kdr::Graphics::Shader defaultShader { 
       "resources/Shaders/default.vert",
       "resources/Shaders/default.frag"
+    };
+    kdr::Graphics::Texture mercuryTexture {
+      "resources/Textures/mercury.png",
+      GL_TEXTURE_2D,
+      GL_TEXTURE0,
+      GL_UNSIGNED_BYTE
     };
     std::vector<kdr::Solids::Cube*> cubes;
     bool canMaximize {true};
