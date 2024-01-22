@@ -98,6 +98,8 @@ bool kdr::Window::_initializeGlew()
 bool kdr::Window::_initializeOpenGLSettings()
 {
   glEnable(GL_DEPTH_TEST);
+  glEnable(GL_CULL_FACE);
+  glCullFace(GL_BACK);
   return true;
 }
 
