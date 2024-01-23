@@ -2,7 +2,15 @@
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height)
 {
-  (void)window;
+  kdr::Window* windowPtr = reinterpret_cast<kdr::Window*>(glfwGetWindowUserPointer(window));
+  kdr::Camera* cameraPtr = windowPtr->getBoundCamera();
+
+  if (cameraPtr != NULL)
+  {
+    float newAspect = width / (float)height;
+    cameraPtr->setAspect(newAspect);
+  }
+
   glViewport(0, 0, width, height);
 }
 
@@ -78,6 +86,7 @@ bool kdr::Window::_initializeGlfwWindow()
     return false;
   }
   glfwMakeContextCurrent(this->glfwWindow);
+  glfwSetWindowUserPointer(this->glfwWindow, this);
   glfwSetFramebufferSizeCallback(this->glfwWindow, framebufferSizeCallback);
   return true;
 }

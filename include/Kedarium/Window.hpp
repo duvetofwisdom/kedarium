@@ -137,6 +137,15 @@ namespace kdr
        */
       float getDeltaTime() const
       { return this->deltaTime; }
+      /**
+       * @brief Gets the camera bound to this window.
+       *
+       * This function returns a pointer to the camera that is currently bound to this window.
+       *
+       * @return A pointer to the bound camera, or nullptr if no camera is bound.
+       */
+      kdr::Camera* getBoundCamera() const
+      { return this->boundCamera; }
 
       /**
        * @brief Sets the clear color for rendering.
