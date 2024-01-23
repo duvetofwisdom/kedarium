@@ -50,7 +50,7 @@ namespace kdr
          *
          * @param shaderID The ID of the shader program.
          */
-        void applyModelMatrix(const GLuint shaderID)
+        void applyModelMatrix(const GLuint shaderID) const
         {
           GLuint location = glGetUniformLocation(shaderID, "model");
           glUniformMatrix4fv(location, 1, GL_FALSE, kdr::Space::valuePointer(this->model));
@@ -192,6 +192,32 @@ namespace kdr
          * @brief Renders the pyramid.
          *
          * This function is responsible for rendering the pyramid using the specified graphics pipeline.
+         */
+        void render();
+    };
+
+    /**
+     * @brief Represents a plane in 3D space.
+     *
+     * This class inherits from the Solid class and provides functionality to render a simple plane
+     * with specified dimensions.
+     */
+    class Plane : public kdr::Solids::Solid
+    {
+      public:
+        /**
+         * @brief Constructs a Plane object with specified parameters.
+         *
+         * @param position The position of the plane in 3D space.
+         * @param length The length of the plane.
+         * @param width The width of the plane.
+         */
+        Plane(const kdr::Space::Vec3& position, const float length, const float width);
+
+        /**
+         * @brief Renders the plane.
+         *
+         * This function renders the plane by applying its model matrix and performing the rendering.
          */
         void render();
     };

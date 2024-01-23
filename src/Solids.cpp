@@ -171,3 +171,41 @@ void kdr::Solids::Pyramid::render()
   glDrawElements(GL_TRIANGLES, sizeof(pyramidIndices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
   this->VAO->Unbind();
 }
+
+GLuint planeIndices[] = {
+  0, 1, 3, // Top
+  0, 3, 2, // Top
+};
+
+kdr::Solids::Plane::Plane(const kdr::Space::Vec3& position, const float length, const float width) : kdr::Solids::Solid(position)
+{
+  GLfloat planeVertices[] = {
+    -(length / 2.f), 0.f,  (width / 2.f), 1.f, 1.f, 1.f, 0.f, 0.f,  // 0 00
+     (length / 2.f), 0.f,  (width / 2.f), 1.f, 1.f, 1.f, 1.f, 0.f,  // 1 10
+    -(length / 2.f), 0.f, -(width / 2.f), 1.f, 1.f, 1.f, 0.f, 1.f,  // 2 01
+     (length / 2.f), 0.f, -(width / 2.f), 1.f, 1.f, 1.f, 1.f, 1.f,  // 3 11
+  };
+  
+  this->VAO = new kdr::Graphics::VAO();
+  this->VBO = new kdr::Graphics::VBO(planeVertices, sizeof(planeVertices));
+  this->EBO = new kdr::Graphics::EBO(planeIndices, sizeof(planeIndices));
+
+  this->VAO->Bind();
+  this->VBO->Bind();
+  this->EBO->Bind();
+
+  this->VAO->LinkAttrib(*this->VBO, 0, 3, GL_FLOAT, 8 * sizeof(GLfloat), (void*)0);
+  this->VAO->LinkAttrib(*this->VBO, 1, 3, GL_FLOAT, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+  this->VAO->LinkAttrib(*this->VBO, 2, 2, GL_FLOAT, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
+
+  this->VAO->Unbind();
+  this->VBO->Unbind();
+  this->EBO->Unbind();
+}
+
+void kdr::Solids::Plane::render()
+{
+  this->VAO->Bind();
+  glDrawElements(GL_TRIANGLES, sizeof(planeIndices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
+  this->VAO->Unbind();
+}

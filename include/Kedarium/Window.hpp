@@ -8,6 +8,7 @@
 
 #include "Color.hpp"
 #include "Graphics.hpp"
+#include "Solids.hpp"
 #include "Camera.hpp"
 
 namespace kdr
@@ -225,6 +226,19 @@ namespace kdr
       {
         texture.TextureUnit(this->boundShader, "tex0", 0);
         texture.Bind();
+      }
+      /**
+       * @brief Renders the specified solid object.
+       *
+       * This function applies the model matrix of the provided solid to the bound shader
+       * and renders the solid object.
+       *
+       * @param solid The solid object to be rendered.
+       */
+      void renderSolid(kdr::Solids::Solid& solid)
+      {
+        solid.applyModelMatrix(this->boundShader);
+        solid.render();
       }
 
     private:

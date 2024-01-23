@@ -86,6 +86,7 @@ class MainWindow : public kdr::Window::Window
     {
       defaultShader.Delete();
       mercuryTexture.Delete();
+      grassTexture.Delete();
     }
 
     void initialize()
@@ -150,12 +151,13 @@ class MainWindow : public kdr::Window::Window
     void render()
     {
       this->bindShader(this->defaultShader);
+      this->bindTexture(this->grassTexture);
+      this->renderSolid(this->plane);
       this->bindTexture(this->mercuryTexture);
 
       for (kdr::Solids::Pyramid* pyramid : this->pyramids)
       {
-        pyramid->applyModelMatrix(this->defaultShader.getID());
-        pyramid->render();
+        this->renderSolid(*pyramid);
       }
     }
 
@@ -170,7 +172,18 @@ class MainWindow : public kdr::Window::Window
       GL_TEXTURE0,
       GL_UNSIGNED_BYTE
     };
+    kdr::Graphics::Texture grassTexture {
+      "resources/Textures/grass.png",
+      GL_TEXTURE_2D,
+      GL_TEXTURE0,
+      GL_UNSIGNED_BYTE
+    };
     std::vector<kdr::Solids::Pyramid*> pyramids;
+    kdr::Solids::Plane plane {
+      { 0.f, -0.5f, 0.f},
+      5.f,
+      5.f
+    };
     bool canMaximize {true};
 };
 
