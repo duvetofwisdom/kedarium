@@ -85,8 +85,7 @@ class MainWindow : public kdr::Window::Window
     ~MainWindow()
     {
       defaultShader.Delete();
-      mercuryTexture.Delete();
-      grassTexture.Delete();
+      emeraldTexture.Delete();
     }
 
     void initialize()
@@ -94,17 +93,17 @@ class MainWindow : public kdr::Window::Window
       kdr::Graphics::setPointSize(5.f);
       kdr::Graphics::setLineWidth(2.f);
 
-      kdr::Solids::Pyramid* pyramid;
+      kdr::Solids::Octahedron* octahedron;
       for (int z = 0; z < 3; z++)
       {
         for (int x = 0; x < 3; x++)
         {
-          pyramid = new kdr::Solids::Pyramid({
+          octahedron = new kdr::Solids::Octahedron({
             {(x - 1) * 2.f, 0.f, (z - 1) * 2.f},
             1.f,
-            1.f
+            3.f
           });
-          this->pyramids.push_back(pyramid);
+          this->octahedrons.push_back(octahedron);
         }
       }
     }
@@ -151,13 +150,11 @@ class MainWindow : public kdr::Window::Window
     void render()
     {
       this->bindShader(this->defaultShader);
-      this->bindTexture(this->grassTexture);
-      this->renderSolid(this->plane);
-      this->bindTexture(this->mercuryTexture);
+      this->bindTexture(this->emeraldTexture);
 
-      for (kdr::Solids::Pyramid* pyramid : this->pyramids)
+      for (kdr::Solids::Octahedron* octahedron : this->octahedrons)
       {
-        this->renderSolid(*pyramid);
+        this->renderSolid(*octahedron);
       }
     }
 
@@ -166,24 +163,13 @@ class MainWindow : public kdr::Window::Window
       "resources/Shaders/default.vert",
       "resources/Shaders/default.frag"
     };
-    kdr::Graphics::Texture mercuryTexture {
-      "resources/Textures/mercury.png",
+    kdr::Graphics::Texture emeraldTexture {
+      "resources/Textures/emerald.png",
       GL_TEXTURE_2D,
       GL_TEXTURE0,
       GL_UNSIGNED_BYTE
     };
-    kdr::Graphics::Texture grassTexture {
-      "resources/Textures/grass.png",
-      GL_TEXTURE_2D,
-      GL_TEXTURE0,
-      GL_UNSIGNED_BYTE
-    };
-    std::vector<kdr::Solids::Pyramid*> pyramids;
-    kdr::Solids::Plane plane {
-      { 0.f, -0.5f, 0.f},
-      5.f,
-      5.f
-    };
+    std::vector<kdr::Solids::Octahedron*> octahedrons;
     bool canMaximize {true};
 };
 
@@ -194,7 +180,7 @@ int main()
 
   // Camera
   kdr::Camera mainCamera {
-    {0.f, 0.f, 3.f},
+    {0.f, 0.f, 5.f},
     CAMERA_FOV,
     CAMERA_ASPECT,
     CAMERA_NEAR,

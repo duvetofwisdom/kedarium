@@ -117,6 +117,19 @@ namespace kdr
         kdr::Graphics::VBO* VBO {NULL};
         kdr::Graphics::EBO* EBO {NULL};
 
+        /**
+         * @brief Initializes OpenGL-related members of the solid object.
+         *
+         * This function initializes the Vertex Array Object (VAO), Vertex Buffer Object (VBO),
+         * and Element Buffer Object (EBO) for rendering the solid object.
+         *
+         * @param vertices The array of vertices defining the geometry of the solid.
+         * @param verticesSize The size (in bytes) of the vertices array.
+         * @param indices The array of indices defining the order of vertices for rendering.
+         * @param indicesSize The size (in bytes) of the indices array.
+         */
+        void initializeMembers(GLfloat vertices[], GLsizeiptr verticesSize, GLuint indices[], GLsizeiptr indicesSize);
+
       private:
         kdr::Space::Vec3 position {0.f};
         kdr::Space::Mat4 model {1.f};
@@ -218,6 +231,34 @@ namespace kdr
          * @brief Renders the plane.
          *
          * This function renders the plane by applying its model matrix and performing the rendering.
+         */
+        void render();
+    };
+
+    /**
+     * @brief Represents an octahedron in 3D space.
+     *
+     * This class extends the kdr::Solids::Solid class and provides functionality to render a octahedron.
+     */
+    class Octahedron : public kdr::Solids::Solid
+    {
+      /**
+       * @brief Represents an octahedron solid object in 3D space.
+       */
+      public:
+        /**
+         * @brief Constructs an Octahedron object with specified parameters.
+         *
+         * @param position The position of the octahedron in 3D space.
+         * @param length The length of the octahedron.
+         * @param width The width of the octahedron.
+         */
+        Octahedron(const kdr::Space::Vec3& position, const float length, const float width);
+
+        /**
+         * @brief Renders the octahedron.
+         *
+         * This function renders the octahedron by applying its model matrix and performing the rendering.
          */
         void render();
     };
