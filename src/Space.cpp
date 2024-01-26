@@ -9,6 +9,28 @@ kdr::Space::Mat4 kdr::Space::translate(const kdr::Space::Mat4& mat, const kdr::S
   return result;
 }
 
+kdr::Space::Mat4 kdr::Space::rotate(const kdr::Space::Mat4& mat, const kdr::Space::Vec3& vec, const float angle)
+{
+  kdr::Space::Vec3 normalizedVec = kdr::Space::normalize(vec);
+  kdr::Space::Mat4 viewMat {mat};
+
+  const float cosTheta = std::cos(kdr::Space::radians(angle));
+  const float sinTheta = std::sin(kdr::Space::radians(angle));
+  const float oneMinusCosTheta = 1 - cosTheta;
+
+  viewMat[0][0] = cosTheta + normalizedVec.x * normalizedVec.x * oneMinusCosTheta;
+  viewMat[0][1] = normalizedVec.x * normalizedVec.y * oneMinusCosTheta - normalizedVec.z * sinTheta;
+  viewMat[0][2] = normalizedVec.x * normalizedVec.z * oneMinusCosTheta + normalizedVec.y * sinTheta;
+  viewMat[1][0] = normalizedVec.y * normalizedVec.x * oneMinusCosTheta + normalizedVec.z * sinTheta;
+  viewMat[1][1] = cosTheta + normalizedVec.y * normalizedVec.y * oneMinusCosTheta;
+  viewMat[1][2] = normalizedVec.y * normalizedVec.z * oneMinusCosTheta - normalizedVec.x * sinTheta;
+  viewMat[2][0] = normalizedVec.z * normalizedVec.x * oneMinusCosTheta - normalizedVec.y * sinTheta;
+  viewMat[2][1] = normalizedVec.z * normalizedVec.y * oneMinusCosTheta + normalizedVec.x * sinTheta;
+  viewMat[2][2] = cosTheta + normalizedVec.z * normalizedVec.z * oneMinusCosTheta;
+
+  return viewMat * mat;
+}
+
 kdr::Space::Mat4 kdr::Space::perspective(const float fov, const float aspect, const float zNear, const float zFar)
 {
   kdr::Space::Mat4 result;

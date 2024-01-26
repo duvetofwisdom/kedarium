@@ -43,17 +43,17 @@ namespace kdr
         }
 
         /**
-         * @brief Applies the model matrix to the specified shader.
+         * @brief Applies the combined model and rotation matrices to the specified shader.
          *
          * This function sets the value of the "model" uniform variable in the specified shader
-         * using the solid object's internal model matrix.
+         * using the solid object's internal model and rotation matrices.
          *
          * @param shaderID The ID of the shader program.
          */
         void applyModelMatrix(const GLuint shaderID) const
         {
           GLuint location = glGetUniformLocation(shaderID, "model");
-          glUniformMatrix4fv(location, 1, GL_FALSE, kdr::Space::valuePointer(this->model));
+          glUniformMatrix4fv(location, 1, GL_FALSE, kdr::Space::valuePointer(this->model * this->rotation));
         }
 
         /**
@@ -106,6 +106,56 @@ namespace kdr
         }
 
         /**
+         * @brief Rotates the solid object around a specified axis by a given angle.
+         *
+         * This function performs a rotation transformation on the solid object's rotation matrix
+         * using the specified rotation axis and angle.
+         *
+         * @param axis The axis of rotation.
+         * @param degrees The angle of rotation in degrees.
+         */
+        void rotate(const kdr::Space::Vec3& axis, const float degrees)
+        {
+          this->rotation = kdr::Space::rotate(this->rotation, axis, degrees);
+        }
+        /**
+         * @brief Rotates the solid object around the X-axis by a given angle.
+         *
+         * This function performs a rotation transformation on the solid object's rotation matrix
+         * around the X-axis by the specified angle.
+         *
+         * @param degrees The angle of rotation in degrees.
+         */
+        void rotateX(const float degrees)
+        {
+          this->rotation = kdr::Space::rotate(this->rotation, {1.f, 0.f, 0.f}, degrees);
+        }
+        /**
+         * @brief Rotates the solid object around the Y-axis by a given angle.
+         *
+         * This function performs a rotation transformation on the solid object's rotation matrix
+         * around the Y-axis by the specified angle.
+         *
+         * @param degrees The angle of rotation in degrees.
+         */
+        void rotateY(const float degrees)
+        {
+          this->rotation = kdr::Space::rotate(this->rotation, {0.f, 1.f, 0.f}, degrees);
+        }
+        /**
+         * @brief Rotates the solid object around the Z-axis by a given angle.
+         *
+         * This function performs a rotation transformation on the solid object's rotation matrix
+         * around the Z-axis by the specified angle.
+         *
+         * @param degrees The angle of rotation in degrees.
+         */
+        void rotateZ(const float degrees)
+        {
+          this->rotation = kdr::Space::rotate(this->rotation, {0.f, 0.f, 1.f}, degrees);
+        }
+
+        /**
          * @brief Pure virtual function to render the solid object.
          *
          * Derived classes must implement this function to handle rendering of the solid object.
@@ -133,6 +183,7 @@ namespace kdr
       private:
         kdr::Space::Vec3 position {0.f};
         kdr::Space::Mat4 model {1.f};
+        kdr::Space::Mat4 rotation {1.f};
     };
 
     /**

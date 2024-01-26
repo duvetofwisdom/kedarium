@@ -94,12 +94,12 @@ class MainWindow : public kdr::Window::Window
       kdr::Graphics::setLineWidth(2.f);
 
       kdr::Solids::Octahedron* octahedron;
-      for (int z = 0; z < 3; z++)
+      for (int z = 0; z < 10; z++)
       {
-        for (int x = 0; x < 3; x++)
+        for (int x = 0; x < 10; x++)
         {
           octahedron = new kdr::Solids::Octahedron({
-            {(x - 1) * 2.f, 0.f, (z - 1) * 2.f},
+            {(x - 5) * 4.f, 0.f, (z - 5) * 4.f},
             1.f,
             3.f
           });
@@ -144,6 +144,13 @@ class MainWindow : public kdr::Window::Window
       else
       {
         this->canMaximize = true;
+      }
+
+      for (kdr::Solids::Octahedron* octahedron : this->octahedrons)
+      {
+        octahedron->rotateX(20.f * this->getDeltaTime());
+        octahedron->rotateY(10.f * this->getDeltaTime());
+        octahedron->rotateZ(5.f * this->getDeltaTime());
       }
     }
     
