@@ -82,6 +82,15 @@ namespace kdr
       float getAspect() const
       { return this->aspect; }
       /**
+       * @brief Sets the aspect ratio of the camera's viewport.
+       *
+       * This function updates the aspect ratio of the camera's viewport to the specified value.
+       *
+       * @param aspect The new aspect ratio (width / height) to set.
+       */
+      void setAspect(const float aspect)
+      { this->aspect = aspect; }
+      /**
        * @brief Gets the distance to the near clipping plane.
        *
        * @return The distance to the near clipping plane.

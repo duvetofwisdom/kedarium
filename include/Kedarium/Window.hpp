@@ -8,6 +8,7 @@
 
 #include "Color.hpp"
 #include "Graphics.hpp"
+#include "Solids.hpp"
 #include "Camera.hpp"
 
 namespace kdr
@@ -136,6 +137,15 @@ namespace kdr
        */
       float getDeltaTime() const
       { return this->deltaTime; }
+      /**
+       * @brief Gets the camera bound to this window.
+       *
+       * This function returns a pointer to the camera that is currently bound to this window.
+       *
+       * @return A pointer to the bound camera, or nullptr if no camera is bound.
+       */
+      kdr::Camera* getBoundCamera() const
+      { return this->boundCamera; }
 
       /**
        * @brief Sets the clear color for rendering.
@@ -212,6 +222,32 @@ namespace kdr
       {
         glUseProgram(shader.getID());
         this->boundShader = shader.getID();
+      }
+      /**
+       * @brief Binds the specified texture for rendering.
+       *
+       * This function sets the specified texture unit in the bound shader and binds the texture.
+       * It is used to prepare a texture for rendering.
+       *
+       * @param texture The texture to be bound for rendering.
+       */
+      void bindTexture(const kdr::Graphics::Texture& texture)
+      {
+        texture.TextureUnit(this->boundShader, "tex0", 0);
+        texture.Bind();
+      }
+      /**
+       * @brief Renders the specified solid object.
+       *
+       * This function applies the model matrix of the provided solid to the bound shader
+       * and renders the solid object.
+       *
+       * @param solid The solid object to be rendered.
+       */
+      void renderSolid(kdr::Solids::Solid& solid)
+      {
+        solid.applyModelMatrix(this->boundShader);
+        solid.render();
       }
 
     private:

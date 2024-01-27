@@ -5,6 +5,7 @@
 #include <string>
 
 #include "File.hpp"
+#include "Image.hpp"
 
 namespace kdr
 {
@@ -276,6 +277,64 @@ namespace kdr
 
       private:
         GLuint ID;
+    };
+
+    /**
+     * @brief Represents a texture in a graphics application.
+     *
+     * This class provides functionality to load and manage textures in OpenGL.
+     */
+    class Texture
+    {
+      public:
+        /**
+         * @brief Constructs a Texture object from a PNG file.
+         *
+         * @param pngPath The path to the PNG file.
+         * @param type The target of the texture (e.g., GL_TEXTURE_2D).
+         * @param pixelFormat The pixel format of the texture.
+         * @param pixelType The data type of the texture.
+         */
+        Texture(const std::string& pngPath, GLenum type, GLenum slot, GLenum pixelType);
+        /**
+         * @brief Destructor for the Texture class.
+         *
+         * Releases OpenGL resources associated with the texture.
+         */
+        ~Texture()
+        { glDeleteTextures(1, &this->ID); }
+
+        /**
+         * @brief Sets the texture unit for a shader uniform.
+         *
+         * @param shaderID The ID of the shader program.
+         * @param uniform The name of the uniform variable in the shader.
+         * @param unit The texture unit to set.
+         */
+        void TextureUnit(const GLuint shaderID, const std::string& uniform, GLuint unit) const
+        {
+          GLuint texUnitLoc = glGetUniformLocation(shaderID, uniform.c_str());
+          glUniform1i(texUnitLoc, unit);
+        }
+        /**
+         * @brief Binds the texture to its designated texture target.
+         */
+        void Bind() const
+        { glBindTexture(this->type, this->ID); };
+        /**
+         * @brief Unbinds the texture.
+         */
+        void Unbind() const
+        { glBindTexture(this->type, 0); };
+        /**
+         * @brief Deletes the texture, releasing associated OpenGL resources.
+         */
+        void Delete() const
+        { glDeleteTextures(1, &this->ID); }
+
+      private:
+        GLuint ID;
+        GLenum type;
     };
   }
 }

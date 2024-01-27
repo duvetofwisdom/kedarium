@@ -13,5 +13,6 @@ std::string kdr::File::getContents(const std::string& path)
   }
 
   buffer << file.rdbuf();
+  file.close();
   return buffer.str();
 }

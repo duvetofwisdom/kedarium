@@ -462,6 +462,19 @@ namespace kdr
      */
     kdr::Space::Mat4 translate(const kdr::Space::Mat4& mat, const kdr::Space::Vec3& vec);
     /**
+     * @brief Rotates a 4x4 matrix around a specified axis by a given angle.
+     *
+     * This function performs a rotation transformation on a 4x4 matrix using the specified
+     * rotation axis and angle.
+     *
+     * @param mat The input 4x4 matrix to be rotated.
+     * @param vec The axis of rotation.
+     * @param angle The angle of rotation in degrees.
+     *
+     * @return The rotated 4x4 matrix.
+     */
+    kdr::Space::Mat4 rotate(const kdr::Space::Mat4& mat, const kdr::Space::Vec3& vec, const float angle);
+    /**
      * @brief Creates a perspective projection matrix.
      *
      * This function generates a perspective projection matrix based on the specified parameters.

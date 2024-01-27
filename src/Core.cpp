@@ -1,7 +1,7 @@
 #include "Kedarium/Core.hpp"
 
 const std::string ENGINE_NAME    {"Kedarium"};
-const std::string ENGINE_VERSION {"0.1"};
+const std::string ENGINE_VERSION {"0.2 InDev"};
 const std::string ENGINE_AUTHOR  {"duvetofwisdom"};
 const std::string ENGINE_LICENSE {"GNU GLPv3"};
 
