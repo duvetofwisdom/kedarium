@@ -85,7 +85,7 @@ class MainWindow : public kdr::Window::Window
     ~MainWindow()
     {
       defaultShader.Delete();
-      emeraldTexture.Delete();
+      grassTexture.Delete();
     }
 
     void initialize()
@@ -93,19 +93,31 @@ class MainWindow : public kdr::Window::Window
       kdr::Graphics::setPointSize(5.f);
       kdr::Graphics::setLineWidth(2.f);
 
-      kdr::Solids::Octahedron* octahedron;
-      for (int z = 0; z < 10; z++)
-      {
-        for (int x = 0; x < 10; x++)
-        {
-          octahedron = new kdr::Solids::Octahedron({
-            {(x - 5) * 2.f, 0.f, (z - 5) * 2.f},
-            1.f,
-            3.f
-          });
-          this->octahedrons.push_back(octahedron);
-        }
-      }
+      kdr::Solids::Plane* sandPlane = new kdr::Solids::Plane(
+        {-4.f, 0.f, -4.f},
+        8.f,
+        8.f
+      );
+      kdr::Solids::Plane* grassPlane = new kdr::Solids::Plane(
+        {4.f, 0.f, -4.f},
+        8.f,
+        8.f
+      );
+      kdr::Solids::Plane* stonePlane = new kdr::Solids::Plane(
+        {-4.f, 0.f, 4.f},
+        8.f,
+        8.f
+      );
+      kdr::Solids::Plane* snowPlane = new kdr::Solids::Plane(
+        {4.f, 0.f, 4.f},
+        8.f,
+        8.f
+      );
+
+      this->planes.push_back(sandPlane);
+      this->planes.push_back(grassPlane);
+      this->planes.push_back(stonePlane);
+      this->planes.push_back(snowPlane);
     }
 
   protected:
@@ -150,13 +162,13 @@ class MainWindow : public kdr::Window::Window
     void render()
     {
       this->bindShader(this->defaultShader);
-      this->defaultShader.SetVector3("lightPos", {0.f, 0.f, 10.f});
+      this->defaultShader.SetVector3("lightPos", {0.f, 10.f, 0.f});
       this->defaultShader.SetVector4("lightColor", {1.f, 1.f, 1.f, 1.f});
-      this->bindTexture(this->emeraldTexture);
+      this->bindTexture(this->grassTexture);
 
-      for (kdr::Solids::Octahedron* octahedron : this->octahedrons)
+      for (kdr::Solids::Plane* planes : this->planes)
       {
-        this->renderSolid(*octahedron);
+        this->renderSolid(*planes);
       }
     }
 
@@ -165,13 +177,13 @@ class MainWindow : public kdr::Window::Window
       "resources/Shaders/default.vert",
       "resources/Shaders/default.frag"
     };
-    kdr::Graphics::Texture emeraldTexture {
-      "resources/Textures/emerald.png",
+    kdr::Graphics::Texture grassTexture {
+      "resources/Textures/grass.png",
       GL_TEXTURE_2D,
       GL_TEXTURE0,
       GL_UNSIGNED_BYTE
     };
-    std::vector<kdr::Solids::Octahedron*> octahedrons;
+    std::vector<kdr::Solids::Plane*> planes;
     bool canMaximize {true};
 };
 
@@ -182,7 +194,7 @@ int main()
 
   // Camera
   kdr::Camera mainCamera {
-    {0.f, 0.f, 5.f},
+    {0.f, 2.f, 0.f},
     CAMERA_FOV,
     CAMERA_ASPECT,
     CAMERA_NEAR,

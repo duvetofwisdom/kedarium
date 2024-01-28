@@ -167,10 +167,10 @@ GLuint planeIndices[] = {
 kdr::Solids::Plane::Plane(const kdr::Space::Vec3& position, const float length, const float width) : kdr::Solids::Solid(position)
 {
   GLfloat planeVertices[] = {
-    -(length / 2.f), 0.f,  (width / 2.f), 1.f, 1.f, 1.f, 0.f, 0.f, 0.f, 1.f, 0.f, // 0 00
-     (length / 2.f), 0.f,  (width / 2.f), 1.f, 1.f, 1.f, 1.f, 0.f, 0.f, 1.f, 0.f, // 1 10
-    -(length / 2.f), 0.f, -(width / 2.f), 1.f, 1.f, 1.f, 0.f, 1.f, 0.f, 1.f, 0.f, // 2 01
-     (length / 2.f), 0.f, -(width / 2.f), 1.f, 1.f, 1.f, 1.f, 1.f, 0.f, 1.f, 0.f, // 3 11
+    -(length / 2.f), 0.f,  (width / 2.f), 1.f, 1.f, 1.f, 0.f,    0.f,   0.f, 1.f, 0.f, // 0 00
+     (length / 2.f), 0.f,  (width / 2.f), 1.f, 1.f, 1.f, length, 0.f,   0.f, 1.f, 0.f, // 1 10
+    -(length / 2.f), 0.f, -(width / 2.f), 1.f, 1.f, 1.f, 0.f,    width, 0.f, 1.f, 0.f, // 2 01
+     (length / 2.f), 0.f, -(width / 2.f), 1.f, 1.f, 1.f, length, width, 0.f, 1.f, 0.f, // 3 11
   };
   this->initializeMembers(planeVertices, sizeof(planeVertices), planeIndices, sizeof(planeIndices));
 }
