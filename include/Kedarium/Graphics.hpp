@@ -6,6 +6,7 @@
 
 #include "File.hpp"
 #include "Image.hpp"
+#include "Space.hpp"
 
 namespace kdr
 {
@@ -95,6 +96,35 @@ namespace kdr
          */
         void Delete()
         { glDeleteProgram(this->ID); }
+
+        /**
+         * @brief Sets the value of a 3D vector uniform in the shader.
+         *
+         * This function sets the value of the specified 3D vector uniform variable in the shader
+         * using the provided vector.
+         *
+         * @param uniform The name of the uniform variable in the shader.
+         * @param vec The 3D vector to be set as the uniform value.
+         */
+        void SetVector3(const std::string& uniform, const kdr::Space::Vec3& vec)
+        {
+          GLuint vecLoc = glGetUniformLocation(this->ID, uniform.c_str());
+          glUniform3f(vecLoc, vec.x, vec.y, vec.z);
+        }
+        /**
+         * @brief Sets the value of a 4D vector uniform in the shader.
+         *
+         * This function sets the value of the specified 4D vector uniform variable in the shader
+         * using the provided vector.
+         *
+         * @param uniform The name of the uniform variable in the shader.
+         * @param vec The 4D vector to be set as the uniform value.
+         */
+        void SetVector4(const std::string& uniform, const kdr::Space::Vec4& vec)
+        {
+          GLuint vecLoc = glGetUniformLocation(this->ID, uniform.c_str());
+          glUniform4f(vecLoc, vec.x, vec.y, vec.z, vec.w);
+        }
 
       private:
         GLuint ID;

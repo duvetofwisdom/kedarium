@@ -273,6 +273,134 @@ namespace kdr
         }
     };
 
+    class Vec4
+    {
+      public:
+        /**
+         * @brief Constructs a Vec4 with specified x, y, z, and w components.
+         *
+         * @param x The x component of the vector.
+         * @param y The y component of the vector.
+         * @param z The z component of the vector.
+         * @param w The w component of the vector.
+         */
+        Vec4(const float x, const float y, const float z, const float w)
+        : x(x), y(y), z(z), w(w)
+        {}
+        /**
+         * @brief Constructs a Vec4 with all components set to the given scalar value.
+         *
+         * @param scalar The scalar value to set for all components (x, y, z, w).
+         */
+        Vec4(const float scalar)
+        : x(scalar), y(scalar), z(scalar), w(scalar)
+        {}
+
+        float x;
+        float y;
+        float z;
+        float w;
+
+        /**
+         * @brief Overloaded addition operator for adding two Vec4 vectors.
+         *
+         * @param vec The Vec4 vector to be added.
+         * @return The result of the addition operation.
+         */
+        Vec4 operator+(const kdr::Space::Vec4& vec) const
+        {
+          return kdr::Space::Vec4(
+            this->x + vec.x,
+            this->y + vec.y,
+            this->z + vec.z,
+            this->w + vec.w
+          );
+        }
+
+        /**
+         * @brief Overloaded subtraction operator for subtracting two Vec4 vectors.
+         *
+         * @param vec The Vec4 vector to be subtracted.
+         * @return The result of the subtraction operation.
+         */
+        Vec4 operator-(const kdr::Space::Vec4& vec) const
+        {
+          return kdr::Space::Vec4(
+            this->x - vec.x,
+            this->y - vec.y,
+            this->z - vec.z,
+            this->w - vec.w
+          );
+        }
+
+        /**
+         * @brief Overloaded multiplication operator for multiplying the vector by a scalar.
+         *
+         * @tparam T The type of the scalar.
+         * @param scalar The scalar value.
+         * @return The result of the multiplication operation.
+         */
+        template <typename T>
+        Vec4 operator*(const T scalar)
+        {
+          return kdr::Space::Vec4(
+            static_cast<float>(this->x * scalar),
+            static_cast<float>(this->y * scalar),
+            static_cast<float>(this->z * scalar),
+            static_cast<float>(this->w * scalar)
+          );
+        }
+
+        /**
+         * @brief Friend function for overloaded multiplication operator with scalar on the left-hand side.
+         *
+         * @tparam T The type of the scalar.
+         * @param scalar The scalar value.
+         * @param vec The Vec4 vector.
+         * @return The result of the multiplication operation.
+         */
+        template <typename T>
+        friend Vec4 operator*(const T scalar, const Vec4& vec)
+        {
+          return kdr::Space::Vec4(
+            static_cast<float>(vec.x * scalar),
+            static_cast<float>(vec.y * scalar),
+            static_cast<float>(vec.z * scalar),
+            static_cast<float>(vec.w * scalar)
+          );
+        }
+
+        /**
+         * @brief Adds a vector to the current vector.
+         *
+         * @param vec The vector to be added.
+         * @return Reference to the modified vector.
+         */
+        kdr::Space::Vec4& operator+=(const kdr::Space::Vec4& vec)
+        {
+          this->x += vec.x;
+          this->y += vec.y;
+          this->z += vec.z;
+          this->w += vec.w;
+          return *this;
+        }
+
+        /**
+         * @brief Subtracts a vector from the current vector.
+         *
+         * @param vec The vector to be subtracted.
+         * @return Reference to the modified vector.
+         */
+        kdr::Space::Vec4& operator-=(const kdr::Space::Vec4& vec)
+        {
+          this->x -= vec.x;
+          this->y -= vec.y;
+          this->z -= vec.z;
+          this->w -= vec.w;
+          return *this;
+        }
+    };
+
     /**
      * @brief Calculates the dot product of two 2D vectors.
      *
@@ -298,6 +426,19 @@ namespace kdr
     inline float dot(const kdr::Space::Vec3& vecA, const kdr::Space::Vec3& vecB)
     {
       return vecA.x * vecB.x + vecA.y * vecB.y + vecA.z * vecB.z;
+    }
+    /**
+     * @brief Calculates the dot product of two 4D vectors.
+     *
+     * This function calculates the dot product of two 4D vectors.
+     *
+     * @param vecA The first 4D vector.
+     * @param vecB The second 4D vector.
+     * @return The dot product of the two vectors.
+     */
+    inline float dot(const kdr::Space::Vec4& vecA, const kdr::Space::Vec4& vecB)
+    {
+      return vecA.x * vecB.x + vecA.y * vecB.y + vecA.z * vecB.z + vecA.w * vecB.w;
     }
 
     /**
@@ -327,6 +468,22 @@ namespace kdr
         vec.x / length,
         vec.y / length,
         vec.z / length
+      );
+    }
+    /**
+     * @brief Normalizes a 4D vector.
+     *
+     * @param vec The input 4D vector.
+     * @return The normalized 4D vector.
+     */
+    inline kdr::Space::Vec4 normalize(const kdr::Space::Vec4& vec)
+    {
+      float length = sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z + vec.w * vec.w);
+      return kdr::Space::Vec4(
+        vec.x / length,
+        vec.y / length,
+        vec.z / length,
+        vec.w / length
       );
     }
 

@@ -115,9 +115,9 @@ GLuint pyramidIndices[] = {
   6, 9, 3,   // Bottom
   6, 3, 0,   // Bottom
   1, 4, 12,  // Front
-  5, 11, 12, // Right
-  10, 7, 12, // Back
-  8, 2, 12,  // Left
+  5, 11, 13, // Right
+  10, 7, 14, // Back
+  8, 2, 15,  // Left
 };
 
 kdr::Solids::Pyramid::Pyramid(const kdr::Space::Vec3& position, const float edgeLength, const float height) : kdr::Solids::Solid(position)
@@ -128,23 +128,26 @@ kdr::Solids::Pyramid::Pyramid(const kdr::Space::Vec3& position, const float edge
   ));
   const kdr::Space::Vec3 nLeft = kdr::Space::normalize(kdr::Space::cross(
     {-edgeLength / 2.f, height, 0.f},
-    {1.f, 0.f, 0.f}
+    {0.f, 0.f, 1.f}
   ));
 
   GLfloat pyramidVertices[] = {
-    -(edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  1.f,  0.f,      -1.f,       0.f,      // 0  00 Bottom
-    -(edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,  nFront.x,  nFront.y,  nFront.z, // 1  00 Front
-    -(edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,  nLeft.x,   nLeft.y,   nLeft.z,  // 2  00 Left
-     (edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  1.f,  0.f,      -1.f,       0.f,      // 3  10 Bottom
-     (edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,  nFront.x,  nFront.y,  nFront.z, // 4  10 Front
-     (edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f, -nLeft.x,   nLeft.y,   nLeft.z,  // 5  10 Right
-    -(edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,  0.f,      -1.f,       0.f,      // 6  01 Bottom
-    -(edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,  nFront.x,  nFront.y, -nFront.z, // 7  01 Back
-    -(edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,  nLeft.x,   nLeft.y,   nLeft.z,  // 8  01 Left
-     (edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,  0.f,      -1.f,       0.f,      // 9  11 Bottom
-     (edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,  nFront.x,  nFront.y, -nFront.z, // 10 11 Back
-     (edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f, -nLeft.x,   nLeft.y,   nLeft.z,  // 11 11 Right
-     0.f,                 (height / 2.f),  0.f,                1.f, 1.f, 1.f, 0.5f, 0.5f, 0.f,       1.f,       0.f,      // 12    Top
+    -(edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  1.f,   0.f,      -1.f,       0.f,      // 0  00 Bottom
+    -(edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,   nFront.x,  nFront.y,  nFront.z, // 1  00 Front
+    -(edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,   nLeft.x,   nLeft.y,   nLeft.z,  // 2  00 Left
+     (edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  1.f,   0.f,      -1.f,       0.f,      // 3  10 Bottom
+     (edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,   nFront.x,  nFront.y,  nFront.z, // 4  10 Front
+     (edgeLength / 2.f), -(height / 2.f),  (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,  -nLeft.x,   nLeft.y,   nLeft.z,  // 5  10 Right
+    -(edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,   0.f,      -1.f,       0.f,      // 6  01 Bottom
+    -(edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,   nFront.x,  nFront.y, -nFront.z, // 7  01 Back
+    -(edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,   nLeft.x,   nLeft.y,   nLeft.z,  // 8  01 Left
+     (edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,   0.f,      -1.f,       0.f,      // 9  11 Bottom
+     (edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,   nFront.x,  nFront.y, -nFront.z, // 10 11 Back
+     (edgeLength / 2.f), -(height / 2.f), -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,  -nLeft.x,   nLeft.y,   nLeft.z,  // 11 11 Right
+     0.f,                 (height / 2.f),  0.f,                1.f, 1.f, 1.f, 0.5f, 0.5f,  nFront.x,  nFront.y,  nFront.z, // 12    Top Front
+     0.f,                 (height / 2.f),  0.f,                1.f, 1.f, 1.f, 0.5f, 0.5f, -nLeft.x,   nLeft.y,   nLeft.z,  // 13    Top Right
+     0.f,                 (height / 2.f),  0.f,                1.f, 1.f, 1.f, 0.5f, 0.5f,  nFront.x,  nFront.y, -nFront.z, // 14    Top Back
+     0.f,                 (height / 2.f),  0.f,                1.f, 1.f, 1.f, 0.5f, 0.5f,  nLeft.x,   nLeft.y,   nLeft.z,  // 15    Top Left
   };
   this->initializeMembers(pyramidVertices, sizeof(pyramidVertices), pyramidIndices, sizeof(pyramidIndices));
 }
@@ -181,13 +184,13 @@ void kdr::Solids::Plane::render()
 
 GLuint octahedronIndices[] = {
   0, 4, 16,  // Front T
-  6, 12, 16, // Right T
-  14, 8, 16, // Back  T
-  10, 2, 16, // Left  T
-  5, 1, 17,  // Front B
-  13, 7, 17, // Right B
-  9, 15, 17, // Back  B
-  3, 11, 17, // Left  B
+  6, 12, 17, // Right T
+  14, 8, 18, // Back  T
+  10, 2, 19, // Left  T
+  5, 1, 20,  // Front B
+  13, 7, 21, // Right B
+  9, 15, 22, // Back  B
+  3, 11, 23, // Left  B
 };
 
 kdr::Solids::Octahedron::Octahedron(const kdr::Space::Vec3& position, const float edgeLength, const float height) : kdr::Solids::Solid(position)
@@ -198,28 +201,34 @@ kdr::Solids::Octahedron::Octahedron(const kdr::Space::Vec3& position, const floa
   ));
   const kdr::Space::Vec3 ntLeft = kdr::Space::normalize(kdr::Space::cross(
     {-edgeLength / 2.f, height, 0.f},
-    {1.f, 0.f, 0.f}
+    {0.f, 0.f, 1.f}
   ));
 
   GLfloat octahedronVertices[] = {
-    -(edgeLength / 2.f),  0.f,             (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,  ntFront.x,  ntFront.y,  ntFront.z, // 0  00 Front T
-    -(edgeLength / 2.f),  0.f,             (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,  ntFront.x, -ntFront.y,  ntFront.z, // 1  00 Front B
-    -(edgeLength / 2.f),  0.f,             (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,  ntLeft.x,   ntLeft.y,   ntLeft.z,  // 2  00 Left  T
-    -(edgeLength / 2.f),  0.f,             (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,  ntLeft.x,  -ntLeft.y,   ntLeft.z,  // 3  00 Left  B
-     (edgeLength / 2.f),  0.f,             (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,  ntFront.x,  ntFront.y,  ntFront.z, // 4  10 Front T
-     (edgeLength / 2.f),  0.f,             (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,  ntFront.x, -ntFront.y,  ntFront.z, // 5  10 Front B
-     (edgeLength / 2.f),  0.f,             (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f, -ntLeft.x,   ntLeft.y,   ntLeft.z,  // 6  10 Right T
-     (edgeLength / 2.f),  0.f,             (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f, -ntLeft.x,  -ntLeft.y,   ntLeft.z,  // 7  10 Right B
-    -(edgeLength / 2.f),  0.f,            -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,  ntFront.x,  ntFront.y, -ntFront.z, // 8  01 Back  T
-    -(edgeLength / 2.f),  0.f,            -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,  ntFront.x, -ntFront.z, -ntFront.z, // 9  01 Back  B
-    -(edgeLength / 2.f),  0.f,            -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,  ntLeft.x,   ntLeft.y,   ntLeft.z,  // 10 01 Left  T
-    -(edgeLength / 2.f),  0.f,            -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,  ntLeft.x,  -ntLeft.y,   ntLeft.z,  // 11 01 Left  B
-     (edgeLength / 2.f),  0.f,            -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f, -ntLeft.x,   ntLeft.y,   ntLeft.z,  // 12 11 Right T
-     (edgeLength / 2.f),  0.f,            -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f, -ntLeft.x,  -ntLeft.y,   ntLeft.z,  // 13 11 Right B
-     (edgeLength / 2.f),  0.f,            -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,  ntFront.x,  ntFront.y, -ntFront.z, // 14 11 Back  T
-     (edgeLength / 2.f),  0.f,            -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,  ntFront.x, -ntFront.z, -ntFront.z, // 15 11 Back  B
-     0.f,                 (height / 2.f),  0.f,                1.f, 1.f, 1.f, 0.5f, 1.f,  0.f,        1.f,        0.f,       // 16 Top
-     0.f,                -(height / 2.f),  0.f,                1.f, 1.f, 1.f, 0.5f, 1.f,  0.f,       -1.f,        0.f,       // 17 Bottom
+    -(edgeLength / 2.f),  0.f,             (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,  ntFront.x,  ntFront.y,  ntFront.z, // 0  00 Front  T
+    -(edgeLength / 2.f),  0.f,             (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,  ntFront.x, -ntFront.y,  ntFront.z, // 1  00 Front  B
+    -(edgeLength / 2.f),  0.f,             (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,  ntLeft.x,   ntLeft.y,   ntLeft.z,  // 2  00 Left   T
+    -(edgeLength / 2.f),  0.f,             (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,  ntLeft.x,  -ntLeft.y,   ntLeft.z,  // 3  00 Left   B
+     (edgeLength / 2.f),  0.f,             (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,  ntFront.x,  ntFront.y,  ntFront.z, // 4  10 Front  T
+     (edgeLength / 2.f),  0.f,             (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,  ntFront.x, -ntFront.y,  ntFront.z, // 5  10 Front  B
+     (edgeLength / 2.f),  0.f,             (edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f, -ntLeft.x,   ntLeft.y,   ntLeft.z,  // 6  10 Right  T
+     (edgeLength / 2.f),  0.f,             (edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f, -ntLeft.x,  -ntLeft.y,   ntLeft.z,  // 7  10 Right  B
+    -(edgeLength / 2.f),  0.f,            -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,  ntFront.x,  ntFront.y, -ntFront.z, // 8  01 Back   T
+    -(edgeLength / 2.f),  0.f,            -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,  ntFront.x, -ntFront.z, -ntFront.z, // 9  01 Back   B
+    -(edgeLength / 2.f),  0.f,            -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,  ntLeft.x,   ntLeft.y,   ntLeft.z,  // 10 01 Left   T
+    -(edgeLength / 2.f),  0.f,            -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,  ntLeft.x,  -ntLeft.y,   ntLeft.z,  // 11 01 Left   B
+     (edgeLength / 2.f),  0.f,            -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f, -ntLeft.x,   ntLeft.y,   ntLeft.z,  // 12 11 Right  T
+     (edgeLength / 2.f),  0.f,            -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f, -ntLeft.x,  -ntLeft.y,   ntLeft.z,  // 13 11 Right  B
+     (edgeLength / 2.f),  0.f,            -(edgeLength / 2.f), 1.f, 1.f, 1.f, 0.f,  0.f,  ntFront.x,  ntFront.y, -ntFront.z, // 14 11 Back   T
+     (edgeLength / 2.f),  0.f,            -(edgeLength / 2.f), 1.f, 1.f, 1.f, 1.f,  0.f,  ntFront.x, -ntFront.z, -ntFront.z, // 15 11 Back   B
+     0.f,                 (height / 2.f),  0.f,                1.f, 1.f, 1.f, 0.5f, 1.f,  0.f,        1.f,        0.f,       // 16    Top    F
+     0.f,                 (height / 2.f),  0.f,                1.f, 1.f, 1.f, 0.5f, 1.f,  0.f,        1.f,        0.f,       // 17    Top    R
+     0.f,                 (height / 2.f),  0.f,                1.f, 1.f, 1.f, 0.5f, 1.f,  0.f,        1.f,        0.f,       // 18    Top    B
+     0.f,                 (height / 2.f),  0.f,                1.f, 1.f, 1.f, 0.5f, 1.f,  0.f,        1.f,        0.f,       // 19    Top    L
+     0.f,                -(height / 2.f),  0.f,                1.f, 1.f, 1.f, 0.5f, 1.f,  0.f,       -1.f,        0.f,       // 20    Bottom F
+     0.f,                -(height / 2.f),  0.f,                1.f, 1.f, 1.f, 0.5f, 1.f,  0.f,       -1.f,        0.f,       // 21    Bottom R
+     0.f,                -(height / 2.f),  0.f,                1.f, 1.f, 1.f, 0.5f, 1.f,  0.f,       -1.f,        0.f,       // 22    Bottom B
+     0.f,                -(height / 2.f),  0.f,                1.f, 1.f, 1.f, 0.5f, 1.f,  0.f,       -1.f,        0.f,       // 23    Bottom L
   };
   this->initializeMembers(octahedronVertices, sizeof(octahedronVertices), octahedronIndices, sizeof(octahedronIndices));
 }
