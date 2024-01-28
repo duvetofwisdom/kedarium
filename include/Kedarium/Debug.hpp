@@ -20,12 +20,12 @@ namespace kdr
      *
      * @param vec The 3D vector to be printed.
      */
-    void printVector(const kdr::Space::Vec3& vec)
+    inline void printVector(const kdr::Space::Vec3& vec)
     {
       std::cout << "Vector: " << vec.x << ", " << vec.y << ", " << vec.z << '\n';
     }
 
-    void printMatrix(const kdr::Space::Mat4& mat)
+    inline void printMatrix(const kdr::Space::Mat4& mat)
     {
       std::cout << "Matrix:\n";
       for (int y = 0; y < 4; y++)

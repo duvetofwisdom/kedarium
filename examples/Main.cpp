@@ -93,17 +93,17 @@ class MainWindow : public kdr::Window::Window
       kdr::Graphics::setPointSize(5.f);
       kdr::Graphics::setLineWidth(2.f);
 
-      kdr::Solids::Octahedron* octahedron;
+      kdr::Solids::Pyramid* pyramid;
       for (int z = 0; z < 10; z++)
       {
         for (int x = 0; x < 10; x++)
         {
-          octahedron = new kdr::Solids::Octahedron({
-            {(x - 5) * 4.f, 0.f, (z - 5) * 4.f},
+          pyramid = new kdr::Solids::Pyramid({
+            {(x - 5) * 2.f, 0.f, (z - 5) * 2.f},
             1.f,
-            3.f
+            1.f
           });
-          this->octahedrons.push_back(octahedron);
+          this->pyramids.push_back(pyramid);
         }
       }
     }
@@ -145,13 +145,6 @@ class MainWindow : public kdr::Window::Window
       {
         this->canMaximize = true;
       }
-
-      for (kdr::Solids::Octahedron* octahedron : this->octahedrons)
-      {
-        octahedron->rotateX(20.f * this->getDeltaTime());
-        octahedron->rotateY(10.f * this->getDeltaTime());
-        octahedron->rotateZ(5.f * this->getDeltaTime());
-      }
     }
     
     void render()
@@ -159,9 +152,9 @@ class MainWindow : public kdr::Window::Window
       this->bindShader(this->defaultShader);
       this->bindTexture(this->emeraldTexture);
 
-      for (kdr::Solids::Octahedron* octahedron : this->octahedrons)
+      for (kdr::Solids::Pyramid* pyramid : this->pyramids)
       {
-        this->renderSolid(*octahedron);
+        this->renderSolid(*pyramid);
       }
     }
 
@@ -176,7 +169,12 @@ class MainWindow : public kdr::Window::Window
       GL_TEXTURE0,
       GL_UNSIGNED_BYTE
     };
-    std::vector<kdr::Solids::Octahedron*> octahedrons;
+    kdr::Solids::Pyramid pyramid {
+      {0.f, 0.f, 0.f},
+      1.f,
+      1.f
+    };
+    std::vector<kdr::Solids::Pyramid*> pyramids;
     bool canMaximize {true};
 };
 
