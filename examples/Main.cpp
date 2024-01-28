@@ -82,37 +82,45 @@ class MainWindow : public kdr::Window::Window
   using kdr::Window::Window;
 
   public:
-    ~MainWindow()
-    {
-      defaultShader.Delete();
-      grassTexture.Delete();
-    }
-
     void initialize()
     {
       kdr::Graphics::setPointSize(5.f);
       kdr::Graphics::setLineWidth(2.f);
+
+      kdr::Graphics::Texture* sandTexture = kdr::Core::loadTexture("sand");
+      kdr::Graphics::Texture* grassTexture = kdr::Core::loadTexture("grass");
+      kdr::Graphics::Texture* stoneTexture = kdr::Core::loadTexture("stone");
+      kdr::Graphics::Texture* snowTexture = kdr::Core::loadTexture("snow");
+
+      this->textureManager.add("sand", sandTexture);
+      this->textureManager.add("grass", grassTexture);
+      this->textureManager.add("stone", stoneTexture);
+      this->textureManager.add("snow", snowTexture);
 
       kdr::Solids::Plane* sandPlane = new kdr::Solids::Plane(
         {-4.f, 0.f, -4.f},
         8.f,
         8.f
       );
+      sandPlane->setTexture("sand");
       kdr::Solids::Plane* grassPlane = new kdr::Solids::Plane(
         {4.f, 0.f, -4.f},
         8.f,
         8.f
       );
+      grassPlane->setTexture("grass");
       kdr::Solids::Plane* stonePlane = new kdr::Solids::Plane(
         {-4.f, 0.f, 4.f},
         8.f,
         8.f
       );
+      stonePlane->setTexture("stone");
       kdr::Solids::Plane* snowPlane = new kdr::Solids::Plane(
         {4.f, 0.f, 4.f},
         8.f,
         8.f
       );
+      snowPlane->setTexture("snow");
 
       this->planes.push_back(sandPlane);
       this->planes.push_back(grassPlane);
@@ -164,24 +172,18 @@ class MainWindow : public kdr::Window::Window
       this->bindShader(this->defaultShader);
       this->defaultShader.SetVector3("lightPos", {0.f, 10.f, 0.f});
       this->defaultShader.SetVector4("lightColor", {1.f, 1.f, 1.f, 1.f});
-      this->bindTexture(this->grassTexture);
 
-      for (kdr::Solids::Plane* planes : this->planes)
+      for (kdr::Solids::Plane* plane : this->planes)
       {
-        this->renderSolid(*planes);
+        this->renderSolid(*plane);
       }
     }
 
   private:
+    kdr::Core::Manager<kdr::Graphics::Texture> textureManager;
     kdr::Graphics::Shader defaultShader { 
       "resources/Shaders/default.vert",
       "resources/Shaders/default.frag"
-    };
-    kdr::Graphics::Texture grassTexture {
-      "resources/Textures/grass.png",
-      GL_TEXTURE_2D,
-      GL_TEXTURE0,
-      GL_UNSIGNED_BYTE
     };
     std::vector<kdr::Solids::Plane*> planes;
     bool canMaximize {true};

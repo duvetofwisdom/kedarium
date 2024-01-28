@@ -76,7 +76,8 @@ namespace kdr
          *
          * The destructor cleans up the OpenGL resources associated with the shader program.
          */
-        ~Shader();
+        ~Shader()
+        { glDeleteShader(this->ID); }
 
         /**
          * @brief Gets the OpenGL ID of the shader program.

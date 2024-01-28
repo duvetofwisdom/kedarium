@@ -43,6 +43,25 @@ namespace kdr
         }
 
         /**
+         * @brief Gets the name of the texture associated with the solid object.
+         *
+         * @return The name of the texture.
+         */
+        std::string getTexture()
+        { return this->textureName; }
+
+        /**
+         * @brief Sets the texture for the solid object.
+         *
+         * This function sets the texture name for the solid object, allowing it to be associated
+         * with a specific texture resource.
+         *
+         * @param textureName The name of the texture to be associated with the solid object.
+         */
+        void setTexture(const std::string& textureName)
+        { this->textureName = textureName; }
+
+        /**
          * @brief Applies the combined model and rotation matrices to the specified shader.
          *
          * This function sets the value of the "model" uniform variable in the specified shader
@@ -184,6 +203,8 @@ namespace kdr
         kdr::Space::Vec3 position {0.f};
         kdr::Space::Mat4 model {1.f};
         kdr::Space::Mat4 rotation {1.f};
+
+        std::string textureName {NULL};
     };
 
     /**

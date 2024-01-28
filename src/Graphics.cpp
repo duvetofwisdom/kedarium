@@ -62,11 +62,6 @@ kdr::Graphics::Shader::Shader(const std::string& vertexPath, const std::string& 
   glDeleteShader(fragmentShader);
 }
 
-kdr::Graphics::Shader::~Shader()
-{
-  glDeleteShader(this->ID);
-}
-
 kdr::Graphics::VBO::VBO(GLfloat vertices[], GLsizeiptr size)
 {
   glGenBuffers(1, &this->ID);
@@ -124,6 +119,6 @@ kdr::Graphics::Texture::Texture(const std::string& pngPath, GLenum type, GLenum 
   );
   glGenerateMipmap(this->type);
 
-  glBindTexture(slot, 0);
+  glBindTexture(this->type, 0); 
   delete imageData;
 }
